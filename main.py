@@ -9,7 +9,7 @@ class MainWindow(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		self.setWindowFlags(Qt.FramelessWindowHint)
+		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
 		self.box=QPixmap("imgs/closedbox.png")
@@ -27,7 +27,6 @@ class MainWindow(QWidget):
 			self.box=self.box.scaled(int(self.box.width()*scalar), int(self.box.height()*scalar))
 			self.scissors=self.scissors.scaled(int(self.scissors.width()*scalar), int(self.scissors.height()*scalar))
 		self.label.setPixmap(self.box)
-		print(self.box.width(), self.box.height())
 		self.label.setGeometry(0, 0, self.box.width(), self.box.height())
 		self.setGeometry(int(screen_width/2)-int(self.box.width()/2), 0, self.box.width(), self.box.height())
 
@@ -83,7 +82,7 @@ class SecondWindow(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		self.setWindowFlags(Qt.FramelessWindowHint)
+		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
 		self.label = QLabel(self)
@@ -92,15 +91,15 @@ class SecondWindow(QWidget):
 		self.setGeometry(self.screen_width-15,int(self.screen_height/2), self.pixmap.width(), self.pixmap.height())
 
 	def mousePressEvent(self, event):
-		if event.button() == Qt.LeftButton:
-			self.offset = event.pos()
+		if event.button()==Qt.LeftButton:
+			self.offset=event.pos()
 
 	def mouseMoveEvent(self, event):
-		if event.buttons() == Qt.LeftButton:
+		if event.buttons()==Qt.LeftButton:
 			self.move(event.globalPos() - self.offset)
 
 if __name__ == '__main__':
-	app = QApplication(sys.argv)
-	window = MainWindow()
+	app=QApplication(sys.argv)
+	window=MainWindow()
 	window.show()
 	sys.exit(app.exec_())
