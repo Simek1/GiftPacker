@@ -24,7 +24,7 @@ class MainWindow(QWidget):
 		self.label = QLabel(self)
 		self.label.setPixmap(self.box)
 		self.label.setGeometry(0, 0, self.box.width(), self.box.height())
-		self.setGeometry(0,0, self.box.width(), self.box.height())
+		self.setGeometry(int(screen_width/2)-int(self.box.width()/2), 0, self.box.width(), self.box.height())
 
 		self.second_window=SecondWindow(self.scissors, screen_width, screen_height)
 
