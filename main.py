@@ -22,9 +22,15 @@ class MainWindow(QWidget):
 
 
 		self.label = QLabel(self)
+		if screen_width<1920:
+			scalar=screen_width/1920
+			self.box=self.box.scaled(int(self.box.width()*scalar), int(self.box.height()*scalar))
+			self.scissors=self.scissors.scaled(int(self.scissors.width()*scalar), int(self.scissors.height()*scalar))
 		self.label.setPixmap(self.box)
+		print(self.box.width(), self.box.height())
 		self.label.setGeometry(0, 0, self.box.width(), self.box.height())
 		self.setGeometry(int(screen_width/2)-int(self.box.width()/2), 0, self.box.width(), self.box.height())
+
 
 		self.second_window=SecondWindow(self.scissors, screen_width, screen_height)
 
