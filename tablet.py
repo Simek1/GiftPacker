@@ -55,9 +55,16 @@ class Tablet(QWidget):
 				if self.tablet_on:
 					self.label.setPixmap(self.tabletoff)
 					self.tablet_on=False
+					self.cam_on=False
+					self.light_on=False
+					self.quiz_on=False
+					self.safe_on=False
 				else:
 					self.label.setPixmap(self.tableton)
 					self.tablet_on=True
+			elif 51<=event.x()<=130 and 48<=event.y()<=108 and self.tablet_on:
+				self.label.setPixmap(self.tabletcam)
+				self.cam_on=True
 			else:
 				self.offset=event.pos()
 
