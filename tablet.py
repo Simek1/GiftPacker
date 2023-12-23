@@ -9,7 +9,7 @@ class Tablet(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		self.setWindowFlags(Qt.FramelessWindowHint)
+		self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
 		self.tabletoff=QPixmap("imgs/tabletoff.png")

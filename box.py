@@ -10,7 +10,7 @@ class Box(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		self.setWindowFlags(Qt.FramelessWindowHint)
+		self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
 		self.box=QPixmap("imgs/closedbox.png")
@@ -86,7 +86,7 @@ class SecondWindow(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
+		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool | Qt.WindowStaysOnTopHint)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
 		self.label = QLabel(self)
