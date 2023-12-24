@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QAction, QMenu
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QRegion
 from PyQt5.QtCore import Qt, QTimer
 
 class Tablet(QWidget):
@@ -67,9 +67,9 @@ class Tablet(QWidget):
 		self.safe_on=False
 		self.flipped=False
 
-		self.light=Light(50+self.pos().x(), self.pos().y()+55)
-
 		self.rolled_sheet=RolledSheet(self.pos().x(), self.pos().y(), self.width(), self.height())
+
+		self.light=Light(50+self.pos().x(), self.pos().y()+55, self.rolled_sheet)
 
 	def contextMenuEvent(self, event):
 		menu = QMenu(self)
@@ -112,18 +112,28 @@ class Tablet(QWidget):
 				self.quiz_on=False
 				self.cam_on=False
 				self.safe_on=False
+				self.setWindowFlags(Qt.FramelessWindowHint)
+				self.show()
 				if self.light_on:
 					self.light.tablet_flip()
+					if self.rolled_sheet.sheet_rolled==False:
+						self.rolled_sheet.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
+						self.rolled_sheet.show()
 			elif 0<=event.x()<=41 and 0<=event.y()<=40 and self.flipped:
 				self.label.setPixmap(self.tabletoff)
 				self.flipped=False
+				self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+				self.show()
 				if self.light_on:
 					self.light.tablet_flip()
+					if self.rolled_sheet.sheet_rolled==False:
+						self.rolled_sheet.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool | Qt.WindowStaysOnTopHint)
+						self.rolled_sheet.show()
 			elif 496<=event.x()<=578 and 233<=event.y()<=264 and self.quiz_on:
 				self.label.setPixmap(self.tableton)
 				self.quiz_on=False
-			else:
-				self.offset=event.pos()
+			
+			self.offset=event.pos()
 
 	def mouseMoveEvent(self, event):
 		if event.buttons()==Qt.LeftButton:
@@ -138,11 +148,11 @@ class Tablet(QWidget):
 						   self.pos().y()+self.height()-self.rolled_sheet.height()-25)
 
 class Light(QWidget):
-	def __init__(self, pos_x, pos_y):
+	def __init__(self, pos_x, pos_y, rolled_sheet):
 		super().__init__()
-		self.initUI(pos_x, pos_y)
+		self.initUI(pos_x, pos_y, rolled_sheet)
 
-	def initUI(self, pos_x, pos_y):
+	def initUI(self, pos_x, pos_y, rolled_sheet):
 		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
@@ -152,8 +162,40 @@ class Light(QWidget):
 		self.label.setGeometry(0, 0, self.light.width(), self.light.height())
 		self.setGeometry(pos_x-int(self.light.width()/2), pos_y-int(self.light.height()/2), self.light.width(), self.light.height())
 
+		self.rolled_sheet=rolled_sheet
+
+		i_s_txt="Halo"
+		self.sheet_txt=QLabel(i_s_txt, self)
+		sheet_global_pos=self.mapFromGlobal(self.rolled_sheet.pos())
+		self.sheet_txt.setGeometry(sheet_global_pos.x()+20, sheet_global_pos.y()+20,
+							  self.rolled_sheet.sheet.width(), int(self.rolled_sheet.sheet.height()/2))
+		self.sheet_txt.setWordWrap(True)
+		self.sheet_txt.lower()
+
+		i_s_code="12"
+
+		self.sheet_code=QLabel(i_s_code, self)
+		self.sheet_code.setGeometry(sheet_global_pos.x()+20+int(self.rolled_sheet.sheet.width()/2),
+							   sheet_global_pos.y()+20+int(self.rolled_sheet.sheet.height()*(2/3)),
+											 int(self.rolled_sheet.sheet.width()/2), int(self.rolled_sheet.sheet.height()*(1/3)))
+		self.sheet_code.setWordWrap(True)
+		self.sheet_code.lower()
+
+		self.sheet_txt.hide()
+		self.sheet_code.hide()
+
+		region = QRegion(0, 0, self.light.width(), self.light.height(), QRegion.Ellipse)
+		self.setMask(region)
+
 		self.tablet_flipped=False
-	
+
+		self.rolled_timer=QTimer(self)
+		self.rolled_timer.timeout.connect(self.is_rolled)
+		self.rolled_timer.start(100)
+
+		self.txt_pos=QTimer(self)
+		self.txt_pos.timeout.connect(self.get_txt_pos)
+
 	def tablet_flip(self):
 		if self.tablet_flipped:
 			self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
@@ -165,6 +207,17 @@ class Light(QWidget):
 			self.show()
 			self.move(self.pos().x()+685, self.pos().y())
 			self.tablet_flipped=True
+	def is_rolled(self):
+		if self.rolled_sheet.sheet_rolled==False:
+			self.sheet_txt.show()
+			self.sheet_code.show()
+			self.rolled_timer.stop()
+			self.txt_pos.start(20)
+	def get_txt_pos(self):
+		sheet_global_pos=self.mapFromGlobal(self.rolled_sheet.pos())
+		self.sheet_txt.move(sheet_global_pos.x()+20, sheet_global_pos.y()+20)
+		self.sheet_code.move(sheet_global_pos.x()+20+int(self.rolled_sheet.sheet.width()/2),
+							   sheet_global_pos.y()+20+int(self.rolled_sheet.sheet.height()*(2/3)))
 
 class RolledSheet(QWidget):
 	def __init__(self, pos_x, pos_y, t_width, t_height):
@@ -200,6 +253,7 @@ class RolledSheet(QWidget):
 			self.label.setPixmap(self.sheet)
 			self.label.setGeometry(0, 0, self.sheet.width(), self.sheet.height())
 			self.setGeometry(self.pos().x(), self.pos().y(), self.sheet.width(), self.sheet.height())
+			self.sheet_rolled=False
 			self.show()
 
 
