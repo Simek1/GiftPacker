@@ -18,8 +18,9 @@ class Tablet(QWidget):
 		self.tabletquiz=QPixmap("imgs/tabletquiz.png")
 		self.tabletback=QPixmap("imgs/tabletback.png")
 		self.sheet=QPixmap("imgs/sheet.png")
+		self.quizmode=QPixmap("imgs/tabletquizmode.png")
 
-		imgs=[self.tableton, self.tabletoff, self.tabletcam, self.tabletquiz, self.tabletback, self.sheet]
+		imgs=[self.tableton, self.tabletoff, self.tabletcam, self.tabletquiz, self.tabletback, self.sheet, self.quizmode]
 
 		desktop=QApplication.desktop()
 		screen_geometry=desktop.screenGeometry()
@@ -66,10 +67,41 @@ class Tablet(QWidget):
 		self.quiz_on=False
 		self.safe_on=False
 		self.flipped=False
+		self.quiz_mode=False
+		self.quiz_finished=False
 
 		self.rolled_sheet=RolledSheet(self.pos().x(), self.pos().y(), self.width(), self.height())
 
 		self.light=Light(50+self.pos().x(), self.pos().y()+55, self.rolled_sheet)
+
+		self.questions=["Halo?", "Bonjour?"]
+		self.answers=[["Hi", "Ola", "Olha", 1], ["Slay", "Bonjour", "Si", 2]]
+
+		self.question=QLabel("", self)
+		self.question.setGeometry(360, 140, 400, 50)
+		self.question.setWordWrap(True)
+		self.question.setAlignment(Qt.AlignCenter)
+
+		self.ans1=QLabel("", self)
+		self.ans1.setGeometry(360, 220, 400, 50)
+		self.ans1.setWordWrap(True)
+		self.ans1.setAlignment(Qt.AlignLeft)
+
+		self.ans2=QLabel("", self)
+		self.ans2.setGeometry(360, 290, 400, 50)
+		self.ans2.setWordWrap(True)
+		self.ans2.setAlignment(Qt.AlignLeft)
+
+		self.ans3=QLabel("", self)
+		self.ans3.setGeometry(360, 360, 400, 50)
+		self.ans3.setWordWrap(True)
+		self.ans3.setAlignment(Qt.AlignLeft)
+
+		self.question_index=0
+		self.anses=[self.ans1, self.ans2, self.ans3]
+
+		self.quiz_msg="You slayed"
+		self.quiz_code="12"
 
 	def contextMenuEvent(self, event):
 		menu = QMenu(self)
@@ -89,29 +121,33 @@ class Tablet(QWidget):
 					self.light_on=False
 					self.quiz_on=False
 					self.safe_on=False
+					self.quizmode=False
 				else:
 					self.label.setPixmap(self.tableton)
 					self.tablet_on=True
-			elif 51<=event.x()<=130 and 48<=event.y()<=128 and self.tablet_on:
+			elif 51<=event.x()<=130 and 48<=event.y()<=128 and self.tablet_on: #kamera
 				self.label.setPixmap(self.tabletcam)
 				self.cam_on=True
-			elif 165<=event.x()<=245 and 48<=event.y()<=128 and self.tablet_on:
+				self.tablet_on=False
+			elif 165<=event.x()<=245 and 48<=event.y()<=128 and self.tablet_on: #latarka
 				if self.light_on:
 					self.light_on=False
 					self.light.hide()
 				else:
 					self.light_on=True
 					self.light.show()
-			elif 279<=event.x()<=357 and 48<=event.y()<=128 and self.tablet_on:
+			elif 279<=event.x()<=357 and 48<=event.y()<=128 and self.tablet_on: #quiz
 				self.label.setPixmap(self.tabletquiz)
 				self.quiz_on=True
-			elif 745<=event.x()<=785 and 0<=event.y()<=40 and self.flipped==False:
+				self.tablet_on=False
+			elif 745<=event.x()<=785 and 0<=event.y()<=40 and self.flipped==False: #flip
 				self.label.setPixmap(self.tabletback)
 				self.flipped=True
 				self.tablet_on=False
 				self.quiz_on=False
 				self.cam_on=False
 				self.safe_on=False
+				self.quizmode=False
 				self.setWindowFlags(Qt.FramelessWindowHint)
 				self.show()
 				if self.light_on:
@@ -119,7 +155,7 @@ class Tablet(QWidget):
 					if self.rolled_sheet.sheet_rolled==False:
 						self.rolled_sheet.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
 						self.rolled_sheet.show()
-			elif 0<=event.x()<=41 and 0<=event.y()<=40 and self.flipped:
+			elif 0<=event.x()<=41 and 0<=event.y()<=40 and self.flipped: #flip
 				self.label.setPixmap(self.tabletoff)
 				self.flipped=False
 				self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
@@ -129,9 +165,36 @@ class Tablet(QWidget):
 					if self.rolled_sheet.sheet_rolled==False:
 						self.rolled_sheet.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool | Qt.WindowStaysOnTopHint)
 						self.rolled_sheet.show()
-			elif 496<=event.x()<=578 and 233<=event.y()<=264 and self.quiz_on:
+			elif 496<=event.x()<=578 and 233<=event.y()<=264 and self.quiz_on: #exit quiz
 				self.label.setPixmap(self.tableton)
 				self.quiz_on=False
+			elif 483<=event.x()<=590 and 164<=event.y()<=194 and self.quiz_on: #start quiz
+				self.label.setPixmap(self.quizmode)
+				self.quiz_mode=True
+				self.question.setText(self.questions[0])
+				self.ans1.setText(self.answers[0][0])
+				self.ans2.setText(self.answers[0][1])
+				self.ans3.setText(self.answers[0][2])
+				self.question.show()
+				self.ans1.show()
+				self.ans2.show()
+				self.ans3.show()
+			elif 360<=event.x()<=760 and 220<=event.y()<=270 and self.quiz_mode:
+				self.check_answer(1)
+			elif 360<=event.x()<=760 and 290<=event.y()<=340 and self.quiz_mode:
+				self.check_answer(2)
+			elif 360<=event.x()<=760 and 360<=event.y()<=410 and self.quiz_mode:
+				self.check_answer(3)
+			elif self.quiz_finished or self.cam_on:
+				self.tablet_on=True
+				self.quiz_on=False
+				self.cam_on=False
+				self.safe_on=False
+				self.quiz_mode=False
+				self.quiz_finished=False
+				self.label.setPixmap(self.tableton)
+				self.question.hide()
+				self.question_index=0
 			
 			self.offset=event.pos()
 
@@ -146,6 +209,27 @@ class Tablet(QWidget):
 			self.invisible_sheet_code.move(-self.pos().x()+20+int(self.sheet.width()/2), -self.pos().y()+20+int(self.sheet.height()*(2/3)))
 			self.rolled_sheet.move(self.pos().x()+self.width()-self.rolled_sheet.width(),
 						   self.pos().y()+self.height()-self.rolled_sheet.height()-25)
+	def check_answer(self, ans):
+		if self.answers[self.question_index][3]==ans:
+			self.question_index+=1
+			if len(self.questions)>self.question_index:
+				self.question.setText(self.questions[self.question_index])
+				self.ans1.setText(self.answers[self.question_index][0])
+				self.ans2.setText(self.answers[self.question_index][1])
+				self.ans3.setText(self.answers[self.question_index][2])
+				self.ans1.show()
+				self.ans2.show()
+				self.ans3.show()
+			else:
+				self.question.setText(self.quiz_msg+"\n"+self.quiz_code)
+				self.ans1.hide()
+				self.ans2.hide()
+				self.ans3.hide()
+				self.quiz_mode=False
+				self.quiz_finished=True
+		else:
+			self.anses[ans-1].hide()
+
 
 class Light(QWidget):
 	def __init__(self, pos_x, pos_y, rolled_sheet):
