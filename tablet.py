@@ -17,8 +17,9 @@ class Tablet(QWidget):
 		self.tabletcam=QPixmap("imgs/tabletcam.png")
 		self.tabletquiz=QPixmap("imgs/tabletquiz.png")
 		self.tabletback=QPixmap("imgs/tabletback.png")
+		self.sheet=QPixmap("imgs/sheet.png")
 
-		imgs=[self.tableton, self.tabletoff, self.tabletcam, self.tabletquiz, self.tabletback]
+		imgs=[self.tableton, self.tabletoff, self.tabletcam, self.tabletquiz, self.tabletback, self.sheet]
 
 		desktop=QApplication.desktop()
 		screen_geometry=desktop.screenGeometry()
@@ -37,6 +38,27 @@ class Tablet(QWidget):
 		self.label.setPixmap(self.tabletoff)
 		self.label.setGeometry(0, 0, self.tabletoff.width(), self.tabletoff.height())
 		self.setGeometry(int(self.screen_width/2)-int(self.tabletoff.width()/2), int(screen_height/2)-int(self.tabletoff.height()/2), self.tabletoff.width(), self.tabletoff.height())
+
+		self.invisible_sheet=QLabel(self)
+		self.invisible_sheet.setPixmap(self.sheet)
+		self.invisible_sheet.setGeometry(-self.pos().x()+20, -self.pos().y()+20, self.sheet.width(), self.sheet.height())
+
+		i_s_txt="Halo"
+		self.invisible_sheet_txt=QLabel(i_s_txt, self)
+		self.invisible_sheet_txt.setGeometry(-self.pos().x()+20, -self.pos().y()+20, self.sheet.width(), int(self.sheet.height()/2))
+		self.invisible_sheet_txt.setWordWrap(True)
+		self.invisible_sheet_txt.lower()
+
+		i_s_code="12"
+
+		self.invisible_sheet_code=QLabel(i_s_code, self)
+		self.invisible_sheet_code.setGeometry(-self.pos().x()+20+int(self.sheet.width()/2), -self.pos().y()+20+int(self.sheet.height()*(2/3)),
+											 int(self.sheet.width()/2), int(self.sheet.height()*(1/3)))
+		self.invisible_sheet_code.setWordWrap(True)
+		self.invisible_sheet_code.lower()
+
+		self.invisible_sheet.lower()
+
 
 		self.tablet_on=False
 		self.cam_on=False
@@ -107,6 +129,9 @@ class Tablet(QWidget):
 			self.move(event.globalPos() - self.offset)
 			new_pos=self.pos()
 			self.light.move(self.light.pos()+new_pos-old_pos)
+			self.invisible_sheet.move(-self.pos().x()+20, -self.pos().y()+20)
+			self.invisible_sheet_txt.move(-self.pos().x()+20, -self.pos().y()+20)
+			self.invisible_sheet_code.move(-self.pos().x()+20+int(self.sheet.width()/2), -self.pos().y()+20+int(self.sheet.height()*(2/3)))
 
 class Light(QWidget):
 	def __init__(self, pos_x, pos_y):
@@ -136,6 +161,9 @@ class Light(QWidget):
 			self.show()
 			self.move(self.pos().x()+685, self.pos().y())
 			self.tablet_flipped=True
+
+class RolledSheet(QWidget):
+	pass
 
 if __name__ == '__main__':
 	app=QApplication(sys.argv)
