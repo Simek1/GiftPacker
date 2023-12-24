@@ -8,6 +8,7 @@ from tablet import *
 def openSecondWindow():
 	window.close()
 	window2.show()
+	window2.rolled_sheet.show()
 
 if __name__ == '__main__':
 	app=QApplication(sys.argv)

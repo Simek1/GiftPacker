@@ -8,9 +8,10 @@ class Box(QWidget):
 	def __init__(self):
 		super().__init__()
 		self.initUI()
+		self.setWindowTitle("GiftPacker")
 
 	def initUI(self):
-		self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+		self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
 		self.box=QPixmap("imgs/closedbox.png")

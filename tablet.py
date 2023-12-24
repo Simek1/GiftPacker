@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QAction, QMenu
-from PyQt5.QtGui import QPixmap, QRegion
+from PyQt5.QtGui import QPixmap, QRegion, QFont
 from PyQt5.QtCore import Qt, QTimer
 
 class Tablet(QWidget):
@@ -9,8 +9,9 @@ class Tablet(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+		self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
 		self.setAttribute(Qt.WA_TranslucentBackground)
+		self.setWindowTitle("GiftPacker")
 
 		self.tabletoff=QPixmap("imgs/tabletoff.png")
 		self.tableton=QPixmap("imgs/tableton.png")
@@ -19,8 +20,12 @@ class Tablet(QWidget):
 		self.tabletback=QPixmap("imgs/tabletback.png")
 		self.sheet=QPixmap("imgs/sheet.png")
 		self.quizmode=QPixmap("imgs/tabletquizmode.png")
+		self.safe=QPixmap("imgs/safe.png")
+		self.opensafe=QPixmap("imgs/safe_open.png")
+		self.victory=QPixmap("imgs/finish.png")
 
-		imgs=[self.tableton, self.tabletoff, self.tabletcam, self.tabletquiz, self.tabletback, self.sheet, self.quizmode]
+		imgs=[self.tableton, self.tabletoff, self.tabletcam, self.tabletquiz, self.tabletback, self.sheet, self.quizmode, self.safe,
+			self.opensafe, self.victory]
 
 		desktop=QApplication.desktop()
 		screen_geometry=desktop.screenGeometry()
@@ -69,6 +74,7 @@ class Tablet(QWidget):
 		self.flipped=False
 		self.quiz_mode=False
 		self.quiz_finished=False
+		self.safe_open=False
 
 		self.rolled_sheet=RolledSheet(self.pos().x(), self.pos().y(), self.width(), self.height())
 
@@ -103,6 +109,32 @@ class Tablet(QWidget):
 		self.quiz_msg="You slayed"
 		self.quiz_code="12"
 
+		self.safe_password="121212"
+		self.safe_input=QLabel("",self)
+		self.safe_input.setAlignment(Qt.AlignCenter)
+		self.safe_input.setGeometry(291, 104, 200, 33)
+		
+		self.safe_font = QFont()
+		self.safe_font.setPointSize(30) 
+		self.safe_input.setFont(self.safe_font)
+
+		self.safe_msg="Slay the best slaying"
+		self.safe_code="qwert123qwer6789"
+
+		self.victory_msg=QLabel(self.safe_msg, self)
+		self.victory_msg.setWordWrap(True)
+		self.victory_msg.setGeometry(50, 50, 685, 220)
+		self.victory_msg.setAlignment(Qt.AlignCenter)
+		self.victory_msg.setFont(self.safe_font)
+		self.victory_msg.hide()
+
+		self.victory_code=QLabel(self.safe_code, self)
+		self.victory_code.setWordWrap(True)
+		self.victory_code.setGeometry(50, 290, 685, 87)
+		self.victory_code.setAlignment(Qt.AlignCenter)
+		self.victory_code.setFont(self.safe_font)
+		self.victory_code.hide()
+
 	def contextMenuEvent(self, event):
 		menu = QMenu(self)
 		close_action = menu.addAction("Exit")
@@ -121,7 +153,7 @@ class Tablet(QWidget):
 					self.light_on=False
 					self.quiz_on=False
 					self.safe_on=False
-					self.quizmode=False
+					self.quiz_mode=False
 				else:
 					self.label.setPixmap(self.tableton)
 					self.tablet_on=True
@@ -147,7 +179,7 @@ class Tablet(QWidget):
 				self.quiz_on=False
 				self.cam_on=False
 				self.safe_on=False
-				self.quizmode=False
+				self.quiz_mode=False
 				self.setWindowFlags(Qt.FramelessWindowHint)
 				self.show()
 				if self.light_on:
@@ -168,6 +200,7 @@ class Tablet(QWidget):
 			elif 496<=event.x()<=578 and 233<=event.y()<=264 and self.quiz_on: #exit quiz
 				self.label.setPixmap(self.tableton)
 				self.quiz_on=False
+				self.tablet_on=True
 			elif 483<=event.x()<=590 and 164<=event.y()<=194 and self.quiz_on: #start quiz
 				self.label.setPixmap(self.quizmode)
 				self.quiz_mode=True
@@ -185,7 +218,44 @@ class Tablet(QWidget):
 				self.check_answer(2)
 			elif 360<=event.x()<=760 and 360<=event.y()<=410 and self.quiz_mode:
 				self.check_answer(3)
-			elif self.quiz_finished or self.cam_on:
+			elif 392<=event.x()<=470 and 48<=event.y()<=128 and self.tablet_on:
+				self.tablet_on=False
+				self.safe_on=True
+				self.label.setPixmap(self.safe)
+				self.safe_input.show()
+			elif 292<=event.x()<=347 and 166<=event.y()<=221 and self.safe_on:
+				self.safe_enter("1")
+			elif 366<=event.x()<=420 and 166<=event.y()<=221 and self.safe_on:
+				self.safe_enter("2")
+			elif 438<=event.x()<=492 and 166<=event.y()<=221 and self.safe_on:
+				self.safe_enter("3")
+			elif 509<=event.x()<=563 and 166<=event.y()<=221 and self.safe_on:
+				self.safe_enter("bc")
+			elif 292<=event.x()<=347 and 233<=event.y()<=287 and self.safe_on:
+				self.safe_enter("4")
+			elif 366<=event.x()<=420 and 233<=event.y()<=287 and self.safe_on:
+				self.safe_enter("5")
+			elif 438<=event.x()<=492 and 233<=event.y()<=287 and self.safe_on:
+				self.safe_enter("6")
+			elif 509<=event.x()<=563 and 233<=event.y()<=287 and self.safe_on:
+				self.safe_enter("en")
+			elif 292<=event.x()<=347 and 300<=event.y()<=354 and self.safe_on:
+				self.safe_enter("7")
+			elif 366<=event.x()<=420 and 300<=event.y()<=354 and self.safe_on:
+				self.safe_enter("8")
+			elif 438<=event.x()<=492 and 300<=event.y()<=354 and self.safe_on:
+				self.safe_enter("9")
+			elif 509<=event.x()<=563 and 300<=event.y()<=354 and self.safe_on:
+				self.safe_enter("0")
+			elif 221<=event.x()<=403 and 81<=event.y()<=192 and self.safe_open:
+				self.label.setPixmap(self.victory)
+				self.victory_msg.show()
+				self.victory_code.show()
+				self.safe_on=True
+				self.victory_msg.show()
+				self.victory_code.show()
+
+			elif self.quiz_finished or self.safe_on:
 				self.tablet_on=True
 				self.quiz_on=False
 				self.cam_on=False
@@ -195,20 +265,24 @@ class Tablet(QWidget):
 				self.label.setPixmap(self.tableton)
 				self.question.hide()
 				self.question_index=0
+				self.safe_input.hide()
+				self.safe_open=False
+				self.victory_msg.hide()
+				self.victory_code.hide()
 			
 			self.offset=event.pos()
 
 	def mouseMoveEvent(self, event):
 		if event.buttons()==Qt.LeftButton:
 			old_pos=self.pos()
+			self.rolled_sheet.move(self.pos().x()+self.width()-self.rolled_sheet.width(),
+						   self.pos().y()+self.height()-self.rolled_sheet.height()-25)
 			self.move(event.globalPos() - self.offset)
 			new_pos=self.pos()
 			self.light.move(self.light.pos()+new_pos-old_pos)
 			self.invisible_sheet.move(-self.pos().x()+20, -self.pos().y()+20)
 			self.invisible_sheet_txt.move(-self.pos().x()+20, -self.pos().y()+20)
 			self.invisible_sheet_code.move(-self.pos().x()+20+int(self.sheet.width()/2), -self.pos().y()+20+int(self.sheet.height()*(2/3)))
-			self.rolled_sheet.move(self.pos().x()+self.width()-self.rolled_sheet.width(),
-						   self.pos().y()+self.height()-self.rolled_sheet.height()-25)
 	def check_answer(self, ans):
 		if self.answers[self.question_index][3]==ans:
 			self.question_index+=1
@@ -229,6 +303,22 @@ class Tablet(QWidget):
 				self.quiz_finished=True
 		else:
 			self.anses[ans-1].hide()
+	def safe_enter(self, inp):
+		if inp in ["1","2","3","4","5","6","7","8","9","0"]:
+			if len(self.safe_input.text())<6:
+				self.safe_input.setText(self.safe_input.text()+inp)
+		else:
+			if inp=="bc":
+				if len(self.safe_input.text())>0:
+					self.safe_input.setText(self.safe_input.text()[0:-1])
+			else:
+				if self.safe_input.text()==self.safe_password:
+					self.safe_input.hide()
+					self.label.setPixmap(self.opensafe)
+					self.safe_on=False
+					self.safe_open=True
+				else:
+					self.safe_input.setText("")
 
 
 class Light(QWidget):
@@ -321,7 +411,6 @@ class RolledSheet(QWidget):
 		self.setGeometry(pos_x+t_width-self.rolled.width(), pos_y+t_height-self.rolled.height()-25, self.rolled.width(), self.rolled.height())
 
 		self.sheet_rolled=True
-		self.show()
 
 	def mousePressEvent(self, event):
 		if event.button()==Qt.LeftButton:
