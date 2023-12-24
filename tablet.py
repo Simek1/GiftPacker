@@ -69,6 +69,8 @@ class Tablet(QWidget):
 
 		self.light=Light(50+self.pos().x(), self.pos().y()+55)
 
+		self.rolled_sheet=RolledSheet(self.pos().x(), self.pos().y(), self.width(), self.height())
+
 	def contextMenuEvent(self, event):
 		menu = QMenu(self)
 		close_action = menu.addAction("Exit")
@@ -132,6 +134,8 @@ class Tablet(QWidget):
 			self.invisible_sheet.move(-self.pos().x()+20, -self.pos().y()+20)
 			self.invisible_sheet_txt.move(-self.pos().x()+20, -self.pos().y()+20)
 			self.invisible_sheet_code.move(-self.pos().x()+20+int(self.sheet.width()/2), -self.pos().y()+20+int(self.sheet.height()*(2/3)))
+			self.rolled_sheet.move(self.pos().x()+self.width()-self.rolled_sheet.width(),
+						   self.pos().y()+self.height()-self.rolled_sheet.height()-25)
 
 class Light(QWidget):
 	def __init__(self, pos_x, pos_y):
@@ -163,7 +167,41 @@ class Light(QWidget):
 			self.tablet_flipped=True
 
 class RolledSheet(QWidget):
-	pass
+	def __init__(self, pos_x, pos_y, t_width, t_height):
+		super().__init__()
+		self.initUI(pos_x, pos_y, t_width, t_height)
+
+	def initUI(self, pos_x, pos_y, t_width, t_height):
+		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
+		self.setAttribute(Qt.WA_TranslucentBackground)
+
+		self.rolled=QPixmap("imgs/rolledsheet.png")
+		self.sheet=QPixmap("imgs/sheet.png")
+
+		self.label=QLabel(self)
+		self.label.setPixmap(self.rolled)
+		self.label.setGeometry(0, 0, self.rolled.width(), self.rolled.height())
+		self.setGeometry(pos_x+t_width-self.rolled.width(), pos_y+t_height-self.rolled.height()-25, self.rolled.width(), self.rolled.height())
+
+		self.sheet_rolled=True
+		self.show()
+
+	def mousePressEvent(self, event):
+		if event.button()==Qt.LeftButton:
+			self.offset=event.pos()
+
+	def mouseMoveEvent(self, event):
+		if event.buttons()==Qt.LeftButton:
+			self.move(event.globalPos() - self.offset)
+	
+	def mouseDoubleClickEvent(self, event):
+		if event.button() == Qt.LeftButton and self.sheet_rolled:
+			self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool | Qt.WindowStaysOnTopHint)
+			self.label.setPixmap(self.sheet)
+			self.label.setGeometry(0, 0, self.sheet.width(), self.sheet.height())
+			self.setGeometry(self.pos().x(), self.pos().y(), self.sheet.width(), self.sheet.height())
+			self.show()
+
 
 if __name__ == '__main__':
 	app=QApplication(sys.argv)
