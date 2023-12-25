@@ -14,6 +14,6 @@ if __name__ == '__main__':
 	app=QApplication(sys.argv)
 	window=Box()
 	window.show()	
-	window.destroyed.connect(openSecondWindow)
 	window2=Tablet()
+	window.destroyed.connect(openSecondWindow)
 	sys.exit(app.exec_())
