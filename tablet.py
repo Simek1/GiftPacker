@@ -292,8 +292,9 @@ class Tablet(QWidget):
 	def mouseMoveEvent(self, event):
 		if event.buttons()==Qt.LeftButton:
 			old_pos=self.pos()
-			self.rolled_sheet.move(self.pos().x()+self.width()-self.rolled_sheet.width(),
-						   self.pos().y()+self.height()-self.rolled_sheet.height()-25)
+			if self.rolled_sheet.sheet_rolled:
+				self.rolled_sheet.move(self.pos().x()+self.width()-self.rolled_sheet.width(),
+							self.pos().y()+self.height()-self.rolled_sheet.height()-25)
 			self.move(event.globalPos() - self.offset)
 			new_pos=self.pos()
 			self.light.move(self.light.pos()+new_pos-old_pos)
