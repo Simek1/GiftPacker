@@ -1,196 +1,132 @@
-# -*- coding: utf-8 -*-
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QTabWidget, QTextEdit, QLineEdit, QRadioButton
+from PyQt5.QtCore import QRect, QCoreApplication, QMetaObject
 
-################################################################################
-## Form generated from reading UI file 'untitledcZwfOr.ui'
-##
-## Created by: Qt User Interface Compiler version 5.14.1
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
+class MyForm(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
 
-from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-    QRadialGradient)
-from PySide2.QtWidgets import *
+    def initUI(self):
+        self.resize(510, 366)
 
-
-class Ui_Form(object):
-    def setupUi(self, Form):
-        if Form.objectName():
-            Form.setObjectName(u"Form")
-        Form.resize(510, 366)
-        self.tabs = QTabWidget(Form)
-        self.tabs.setObjectName(u"tabs")
+        self.tabs = QTabWidget(self)
         self.tabs.setGeometry(QRect(0, 0, 511, 341))
+
         self.rew_tab = QWidget()
-        self.rew_tab.setObjectName(u"rew_tab")
         self.lineEdit = QLineEdit(self.rew_tab)
-        self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setGeometry(QRect(10, 220, 191, 20))
         self.label = QLabel(self.rew_tab)
-        self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(200, 220, 111, 21))
         self.textEdit = QTextEdit(self.rew_tab)
-        self.textEdit.setObjectName(u"textEdit")
         self.textEdit.setGeometry(QRect(10, 20, 191, 161))
         self.label_2 = QLabel(self.rew_tab)
-        self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(210, 160, 111, 21))
-        self.tabs.addTab(self.rew_tab, "")
+        self.tabs.addTab(self.rew_tab, "Reward")
+
         self.mys1 = QWidget()
-        self.mys1.setObjectName(u"mys1")
         self.label_4 = QLabel(self.mys1)
-        self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(200, 160, 231, 21))
         self.label_5 = QLabel(self.mys1)
-        self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(50, 220, 141, 21))
         self.lineEdit_3 = QLineEdit(self.mys1)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
         self.lineEdit_3.setGeometry(QRect(10, 220, 31, 20))
-        self.lineEdit_3.setMaxLength(2)
         self.textEdit_2 = QTextEdit(self.mys1)
-        self.textEdit_2.setObjectName(u"textEdit_2")
         self.textEdit_2.setGeometry(QRect(10, 20, 191, 161))
-        self.tabs.addTab(self.mys1, "")
+        self.tabs.addTab(self.mys1, "Invisible sheet")
+
         self.mys2 = QWidget()
-        self.mys2.setObjectName(u"mys2")
         self.label_6 = QLabel(self.mys2)
-        self.label_6.setObjectName(u"label_6")
         self.label_6.setGeometry(QRect(200, 160, 231, 21))
         self.label_7 = QLabel(self.mys2)
-        self.label_7.setObjectName(u"label_7")
         self.label_7.setGeometry(QRect(50, 220, 141, 21))
         self.lineEdit_4 = QLineEdit(self.mys2)
-        self.lineEdit_4.setObjectName(u"lineEdit_4")
         self.lineEdit_4.setGeometry(QRect(10, 220, 31, 20))
-        self.lineEdit_4.setMaxLength(2)
         self.textEdit_3 = QTextEdit(self.mys2)
-        self.textEdit_3.setObjectName(u"textEdit_3")
         self.textEdit_3.setGeometry(QRect(10, 20, 191, 161))
-        self.tabs.addTab(self.mys2, "")
+        self.tabs.addTab(self.mys2, "Hidden sheet")
+
         self.tab_2 = QWidget()
-        self.tab_2.setObjectName(u"tab_2")
         self.lineEdit_5 = QLineEdit(self.tab_2)
-        self.lineEdit_5.setObjectName(u"lineEdit_5")
         self.lineEdit_5.setGeometry(QRect(10, 20, 61, 20))
         self.label_8 = QLabel(self.tab_2)
-        self.label_8.setObjectName(u"label_8")
         self.label_8.setGeometry(QRect(80, 20, 101, 16))
-        self.pushButton_2 = QPushButton(self.tab_2)
-        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.pushButton_2 = QPushButton("Confirm", self.tab_2)
         self.pushButton_2.setGeometry(QRect(200, 20, 61, 23))
         self.lineEdit_6 = QLineEdit(self.tab_2)
-        self.lineEdit_6.setObjectName(u"lineEdit_6")
         self.lineEdit_6.setGeometry(QRect(10, 270, 31, 20))
-        self.lineEdit_6.setMaxLength(2)
         self.label_14 = QLabel(self.tab_2)
-        self.label_14.setObjectName(u"label_14")
         self.label_14.setGeometry(QRect(200, 210, 231, 21))
         self.label_15 = QLabel(self.tab_2)
-        self.label_15.setObjectName(u"label_15")
         self.label_15.setGeometry(QRect(50, 270, 141, 21))
         self.textEdit_8 = QTextEdit(self.tab_2)
-        self.textEdit_8.setObjectName(u"textEdit_8")
         self.textEdit_8.setGeometry(QRect(10, 70, 191, 161))
-        self.tabs.addTab(self.tab_2, "")
+        self.tabs.addTab(self.tab_2, "Quiz")
+
         self.safe = QWidget()
-        self.safe.setObjectName(u"safe")
         self.lineEdit_2 = QLineEdit(self.safe)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
         self.lineEdit_2.setGeometry(QRect(10, 60, 113, 20))
-        self.lineEdit_2.setMaxLength(6)
-        self.lineEdit_2.setFrame(True)
         self.label_3 = QLabel(self.safe)
-        self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(130, 60, 61, 16))
-        self.tabs.addTab(self.safe, "")
+        self.tabs.addTab(self.safe, "Safe code")
+
         self.tab_3 = QWidget()
-        self.tab_3.setObjectName(u"tab_3")
         self.textEdit_4 = QTextEdit(self.tab_3)
-        self.textEdit_4.setObjectName(u"textEdit_4")
         self.textEdit_4.setGeometry(QRect(0, 10, 351, 71))
         self.label_9 = QLabel(self.tab_3)
-        self.label_9.setObjectName(u"label_9")
         self.label_9.setGeometry(QRect(390, 65, 61, 21))
         self.textEdit_5 = QTextEdit(self.tab_3)
-        self.textEdit_5.setObjectName(u"textEdit_5")
         self.textEdit_5.setGeometry(QRect(0, 120, 351, 31))
         self.label_10 = QLabel(self.tab_3)
-        self.label_10.setObjectName(u"label_10")
         self.label_10.setGeometry(QRect(390, 130, 81, 31))
         self.label_11 = QLabel(self.tab_3)
-        self.label_11.setObjectName(u"label_11")
         self.label_11.setGeometry(QRect(390, 200, 81, 31))
         self.textEdit_6 = QTextEdit(self.tab_3)
-        self.textEdit_6.setObjectName(u"textEdit_6")
         self.textEdit_6.setGeometry(QRect(0, 190, 351, 31))
         self.label_12 = QLabel(self.tab_3)
-        self.label_12.setObjectName(u"label_12")
         self.label_12.setGeometry(QRect(390, 270, 81, 31))
         self.textEdit_7 = QTextEdit(self.tab_3)
-        self.textEdit_7.setObjectName(u"textEdit_7")
         self.textEdit_7.setGeometry(QRect(0, 260, 351, 31))
         self.radioButton = QRadioButton(self.tab_3)
-        self.radioButton.setObjectName(u"radioButton")
         self.radioButton.setGeometry(QRect(360, 130, 16, 17))
-        self.radioButton.setChecked(True)
         self.radioButton_2 = QRadioButton(self.tab_3)
-        self.radioButton_2.setObjectName(u"radioButton_2")
         self.radioButton_2.setGeometry(QRect(360, 200, 16, 17))
-        self.radioButton_2.setChecked(False)
         self.radioButton_3 = QRadioButton(self.tab_3)
-        self.radioButton_3.setObjectName(u"radioButton_3")
         self.radioButton_3.setGeometry(QRect(360, 270, 16, 17))
         self.label_13 = QLabel(self.tab_3)
-        self.label_13.setObjectName(u"label_13")
         self.label_13.setGeometry(QRect(0, 300, 321, 16))
-        self.tabs.addTab(self.tab_3, "")
-        self.pushButton = QPushButton(Form)
-        self.pushButton.setObjectName(u"pushButton")
+        self.tabs.addTab(self.tab_3, "Question")
+
+        self.pushButton = QPushButton("End configuration", self)
         self.pushButton.setGeometry(QRect(404, 340, 101, 23))
 
-        self.retranslateUi(Form)
+        self.setWindowTitle("GiftPacker")
+
+        self.label.setText("* Game code")
+        self.label_2.setText("Message")
+
+        self.label_4.setText("* Message suggesting the order of safe codes")
+        self.label_5.setText("Part of safe code (2 digits)")
+
+        self.label_6.setText("* Message suggesting the order of safe codes")
+        self.label_7.setText("Part of safe code (2 digits)")
+
+        self.label_8.setText("Number of questions")
+        self.label_14.setText("* Message suggesting the order of safe codes")
+        self.label_15.setText("Part of safe code (2 digits)")
+
+        self.label_3.setText("Safe code")
+
+        self.label_9.setText("Question")
+        self.label_10.setText("First answer")
+        self.label_11.setText("Second answer")
+        self.label_12.setText("Third answer")
+        self.label_13.setText("Check the right answer")
 
         self.tabs.setCurrentIndex(2)
 
-
-        QMetaObject.connectSlotsByName(Form)
-    # setupUi
-
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"GiftPacker", None))
-        self.label.setText(QCoreApplication.translate("Form", u"* Game code", None))
-        self.label_2.setText(QCoreApplication.translate("Form", u"Message", None))
-        self.tabs.setTabText(self.tabs.indexOf(self.rew_tab), QCoreApplication.translate("Form", u"Reward", None))
-        self.label_4.setText(QCoreApplication.translate("Form", u"* Message suggesting the order of safe codes", None))
-        self.label_5.setText(QCoreApplication.translate("Form", u"Part of safe code (2 digits)", None))
-        self.lineEdit_3.setText("")
-        self.tabs.setTabText(self.tabs.indexOf(self.mys1), QCoreApplication.translate("Form", u"Invisible sheet", None))
-        self.label_6.setText(QCoreApplication.translate("Form", u"* Message suggesting the order of safe codes", None))
-        self.label_7.setText(QCoreApplication.translate("Form", u"Part of safe code (2 digits)", None))
-        self.lineEdit_4.setText("")
-        self.tabs.setTabText(self.tabs.indexOf(self.mys2), QCoreApplication.translate("Form", u"Hidden sheet", None))
-        self.label_8.setText(QCoreApplication.translate("Form", u"Number of questions", None))
-        self.pushButton_2.setText(QCoreApplication.translate("Form", u"Confirm", None))
-        self.lineEdit_6.setText("")
-        self.label_14.setText(QCoreApplication.translate("Form", u"* Message suggesting the order of safe codes", None))
-        self.label_15.setText(QCoreApplication.translate("Form", u"Part of safe code (2 digits)", None))
-        self.tabs.setTabText(self.tabs.indexOf(self.tab_2), QCoreApplication.translate("Form", u"Quiz", None))
-        self.lineEdit_2.setText("")
-        self.label_3.setText(QCoreApplication.translate("Form", u"Safe code", None))
-        self.tabs.setTabText(self.tabs.indexOf(self.safe), QCoreApplication.translate("Form", u"Safe code", None))
-        self.label_9.setText(QCoreApplication.translate("Form", u"Question", None))
-        self.label_10.setText(QCoreApplication.translate("Form", u"First answer", None))
-        self.label_11.setText(QCoreApplication.translate("Form", u"Second answer", None))
-        self.label_12.setText(QCoreApplication.translate("Form", u"Third answer", None))
-        self.radioButton.setText("")
-        self.radioButton_2.setText("")
-        self.radioButton_3.setText("")
-        self.label_13.setText(QCoreApplication.translate("Form", u"Check the right answer", None))
-        self.tabs.setTabText(self.tabs.indexOf(self.tab_3), QCoreApplication.translate("Form", u"Question", None))
-        self.pushButton.setText(QCoreApplication.translate("Form", u"End configuration", None))
-    # retranslateUi
-
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MyForm()
+    window.show()
+    sys.exit(app.exec_())
