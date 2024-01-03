@@ -14,12 +14,12 @@ class MyForm(QWidget):
         self.tabs.setGeometry(QRect(0, 0, 511, 341))
 
         self.rew_tab = QWidget()
-        self.lineEdit = QLineEdit(self.rew_tab)
-        self.lineEdit.setGeometry(QRect(10, 220, 191, 20))
+        self.game_code = QLineEdit(self.rew_tab)
+        self.game_code.setGeometry(QRect(10, 220, 191, 20))
         self.label = QLabel(self.rew_tab)
         self.label.setGeometry(QRect(200, 220, 111, 21))
-        self.textEdit = QTextEdit(self.rew_tab)
-        self.textEdit.setGeometry(QRect(10, 20, 191, 161))
+        self.rew_msg = QTextEdit(self.rew_tab)
+        self.rew_msg.setGeometry(QRect(10, 20, 191, 161))
         self.label_2 = QLabel(self.rew_tab)
         self.label_2.setGeometry(QRect(210, 160, 111, 21))
         self.tabs.addTab(self.rew_tab, "Reward")
@@ -46,22 +46,23 @@ class MyForm(QWidget):
         self.textEdit_3.setGeometry(QRect(10, 20, 191, 161))
         self.tabs.addTab(self.mys2, "Hidden sheet")
 
-        self.tab_2 = QWidget()
-        self.lineEdit_5 = QLineEdit(self.tab_2)
+        self.quiz = QWidget()
+        self.lineEdit_5 = QLineEdit(self.quiz)
         self.lineEdit_5.setGeometry(QRect(10, 20, 61, 20))
-        self.label_8 = QLabel(self.tab_2)
+        self.label_8 = QLabel(self.quiz)
         self.label_8.setGeometry(QRect(80, 20, 101, 16))
-        self.pushButton_2 = QPushButton("Confirm", self.tab_2)
-        self.pushButton_2.setGeometry(QRect(200, 20, 61, 23))
-        self.lineEdit_6 = QLineEdit(self.tab_2)
+        self.conf_q = QPushButton("Confirm", self.quiz)
+        self.conf_q.setGeometry(QRect(200, 20, 61, 23))
+        self.conf_q.clicked.connect(self.confirm_questions)
+        self.lineEdit_6 = QLineEdit(self.quiz)
         self.lineEdit_6.setGeometry(QRect(10, 270, 31, 20))
-        self.label_14 = QLabel(self.tab_2)
+        self.label_14 = QLabel(self.quiz)
         self.label_14.setGeometry(QRect(200, 210, 231, 21))
-        self.label_15 = QLabel(self.tab_2)
+        self.label_15 = QLabel(self.quiz)
         self.label_15.setGeometry(QRect(50, 270, 141, 21))
-        self.textEdit_8 = QTextEdit(self.tab_2)
+        self.textEdit_8 = QTextEdit(self.quiz)
         self.textEdit_8.setGeometry(QRect(10, 70, 191, 161))
-        self.tabs.addTab(self.tab_2, "Quiz")
+        self.tabs.addTab(self.quiz, "Quiz")
 
         self.safe = QWidget()
         self.lineEdit_2 = QLineEdit(self.safe)
@@ -70,6 +71,29 @@ class MyForm(QWidget):
         self.label_3.setGeometry(QRect(130, 60, 61, 16))
         self.tabs.addTab(self.safe, "Safe code")
 
+        self.end_button = QPushButton("End configuration", self)
+        self.end_button.setGeometry(QRect(404, 340, 101, 23))
+
+        self.setWindowTitle("GiftPacker")
+
+        self.label.setText("* Game code")
+        self.label_2.setText("Message")
+
+        self.label_4.setText("* Message suggesting the order of safe codes")
+        self.label_5.setText("Part of safe code (2 digits)")
+
+        self.label_6.setText("* Message suggesting the order of safe codes")
+        self.label_7.setText("Part of safe code (2 digits)")
+
+        self.label_8.setText("Number of questions")
+        self.label_14.setText("* Message suggesting the order of safe codes")
+        self.label_15.setText("Part of safe code (2 digits)")
+
+        self.label_3.setText("Safe code")
+
+    def confirm_questions(self):
+        pass
+    def create_question_tab(self, number):
         self.tab_3 = QWidget()
         self.textEdit_4 = QTextEdit(self.tab_3)
         self.textEdit_4.setGeometry(QRect(0, 10, 351, 71))
@@ -97,33 +121,13 @@ class MyForm(QWidget):
         self.label_13.setGeometry(QRect(0, 300, 321, 16))
         self.tabs.addTab(self.tab_3, "Question")
 
-        self.pushButton = QPushButton("End configuration", self)
-        self.pushButton.setGeometry(QRect(404, 340, 101, 23))
-
-        self.setWindowTitle("GiftPacker")
-
-        self.label.setText("* Game code")
-        self.label_2.setText("Message")
-
-        self.label_4.setText("* Message suggesting the order of safe codes")
-        self.label_5.setText("Part of safe code (2 digits)")
-
-        self.label_6.setText("* Message suggesting the order of safe codes")
-        self.label_7.setText("Part of safe code (2 digits)")
-
-        self.label_8.setText("Number of questions")
-        self.label_14.setText("* Message suggesting the order of safe codes")
-        self.label_15.setText("Part of safe code (2 digits)")
-
-        self.label_3.setText("Safe code")
-
         self.label_9.setText("Question")
         self.label_10.setText("First answer")
         self.label_11.setText("Second answer")
         self.label_12.setText("Third answer")
         self.label_13.setText("Check the right answer")
+            
 
-        self.tabs.setCurrentIndex(2)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
