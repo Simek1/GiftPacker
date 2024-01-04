@@ -96,10 +96,15 @@ class SettingsWindow(QWidget):
 
     def confirm_questions(self):
         i=len(self.question_tabs)
-        while len(self.question_tabs) < int(self.questions_num.text()):
-            print(i)
+        while i < int(self.questions_num.text()):
             self.create_question_tab(i)
             i+=1
+        if i > int(self.questions_num.text()):
+            for j in range(int(self.questions_num.text()), i):
+                self.tabs.removeTab(self.tabs.count()-1)
+                j+=1
+            del(self.question_tabs[int(self.questions_num.text()):])
+            print(self.question_tabs)
 
     def create_question_tab(self, num):
         self.question_tabs.append(QuestionTab())
