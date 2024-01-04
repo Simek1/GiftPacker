@@ -2,7 +2,9 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QTabWidget, QTextEdit, QLineEdit, QRadioButton
 from PyQt5.QtCore import QRect, QCoreApplication, QMetaObject
 
-class MyForm(QWidget):
+
+
+class SettingsWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -47,22 +49,23 @@ class MyForm(QWidget):
         self.tabs.addTab(self.mys2, "Hidden sheet")
 
         self.quiz = QWidget()
-        self.lineEdit_5 = QLineEdit(self.quiz)
-        self.lineEdit_5.setGeometry(QRect(10, 20, 61, 20))
+        self.questions_num = QLineEdit(self.quiz)
+        self.questions_num.setGeometry(QRect(10, 20, 61, 20))
         self.label_8 = QLabel(self.quiz)
         self.label_8.setGeometry(QRect(80, 20, 101, 16))
         self.conf_q = QPushButton("Confirm", self.quiz)
         self.conf_q.setGeometry(QRect(200, 20, 61, 23))
         self.conf_q.clicked.connect(self.confirm_questions)
-        self.lineEdit_6 = QLineEdit(self.quiz)
-        self.lineEdit_6.setGeometry(QRect(10, 270, 31, 20))
+        self.quiz_code = QLineEdit(self.quiz)
+        self.quiz_code.setGeometry(QRect(10, 270, 31, 20))
         self.label_14 = QLabel(self.quiz)
         self.label_14.setGeometry(QRect(200, 210, 231, 21))
         self.label_15 = QLabel(self.quiz)
         self.label_15.setGeometry(QRect(50, 270, 141, 21))
-        self.textEdit_8 = QTextEdit(self.quiz)
-        self.textEdit_8.setGeometry(QRect(10, 70, 191, 161))
+        self.quiz_msg = QTextEdit(self.quiz)
+        self.quiz_msg.setGeometry(QRect(10, 70, 191, 161))
         self.tabs.addTab(self.quiz, "Quiz")
+        self.question_tabs=[]
 
         self.safe = QWidget()
         self.lineEdit_2 = QLineEdit(self.safe)
@@ -92,45 +95,56 @@ class MyForm(QWidget):
         self.label_3.setText("Safe code")
 
     def confirm_questions(self):
-        pass
-    def create_question_tab(self, number):
-        self.tab_3 = QWidget()
-        self.textEdit_4 = QTextEdit(self.tab_3)
-        self.textEdit_4.setGeometry(QRect(0, 10, 351, 71))
-        self.label_9 = QLabel(self.tab_3)
-        self.label_9.setGeometry(QRect(390, 65, 61, 21))
-        self.textEdit_5 = QTextEdit(self.tab_3)
-        self.textEdit_5.setGeometry(QRect(0, 120, 351, 31))
-        self.label_10 = QLabel(self.tab_3)
-        self.label_10.setGeometry(QRect(390, 130, 81, 31))
-        self.label_11 = QLabel(self.tab_3)
-        self.label_11.setGeometry(QRect(390, 200, 81, 31))
-        self.textEdit_6 = QTextEdit(self.tab_3)
-        self.textEdit_6.setGeometry(QRect(0, 190, 351, 31))
-        self.label_12 = QLabel(self.tab_3)
-        self.label_12.setGeometry(QRect(390, 270, 81, 31))
-        self.textEdit_7 = QTextEdit(self.tab_3)
-        self.textEdit_7.setGeometry(QRect(0, 260, 351, 31))
-        self.radioButton = QRadioButton(self.tab_3)
-        self.radioButton.setGeometry(QRect(360, 130, 16, 17))
-        self.radioButton_2 = QRadioButton(self.tab_3)
-        self.radioButton_2.setGeometry(QRect(360, 200, 16, 17))
-        self.radioButton_3 = QRadioButton(self.tab_3)
-        self.radioButton_3.setGeometry(QRect(360, 270, 16, 17))
-        self.label_13 = QLabel(self.tab_3)
-        self.label_13.setGeometry(QRect(0, 300, 321, 16))
-        self.tabs.addTab(self.tab_3, "Question")
+        i=len(self.question_tabs)
+        while len(self.question_tabs) < int(self.questions_num.text()):
+            print(i)
+            self.create_question_tab(i)
+            i+=1
 
-        self.label_9.setText("Question")
-        self.label_10.setText("First answer")
-        self.label_11.setText("Second answer")
-        self.label_12.setText("Third answer")
-        self.label_13.setText("Check the right answer")
+    def create_question_tab(self, num):
+        self.question_tabs.append(QuestionTab())
+        self.tabs.addTab(self.question_tabs[num], f"Question {num+1}")      
+
+class QuestionTab(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.init()
+    def init(self):
+        self.q_question = QTextEdit(self)
+        self.q_question.setGeometry(QRect(0, 10, 351, 71))
+        self.label1 = QLabel(self)
+        self.label1.setGeometry(QRect(390, 65, 61, 21))
+        self.q_ans1 = QTextEdit(self)
+        self.q_ans1.setGeometry(QRect(0, 120, 351, 31))
+        self.label2 = QLabel(self)
+        self.label2.setGeometry(QRect(390, 130, 81, 31))
+        self.label3 = QLabel(self)
+        self.label3.setGeometry(QRect(390, 200, 81, 31))
+        self.q_ans2 = QTextEdit(self)
+        self.q_ans2.setGeometry(QRect(0, 190, 351, 31))
+        self.label4 = QLabel(self)
+        self.label4.setGeometry(QRect(390, 270, 81, 31))
+        self.q_ans3 = QTextEdit(self)
+        self.q_ans3.setGeometry(QRect(0, 260, 351, 31))
+        self.radioButton = QRadioButton(self)
+        self.radioButton.setGeometry(QRect(360, 130, 16, 17))
+        self.radioButton2 = QRadioButton(self)
+        self.radioButton2.setGeometry(QRect(360, 200, 16, 17))
+        self.radioButton3 = QRadioButton(self)
+        self.radioButton3.setGeometry(QRect(360, 270, 16, 17))
+        self.label5 = QLabel(self)
+        self.label5.setGeometry(QRect(0, 300, 321, 16))
+
+        self.label1.setText("Question")
+        self.label2.setText("First answer")
+        self.label3.setText("Second answer")
+        self.label4.setText("Third answer")
+        self.label5.setText("Check the right answer")
             
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MyForm()
+    window = SettingsWindow()
     window.show()
     sys.exit(app.exec_())
