@@ -35,6 +35,7 @@ class SettingsWindow(QWidget):
         self.mys1_code = QLineEdit(self.mys1)
         self.mys1_code.setGeometry(QRect(10, 220, 31, 20))
         self.mys1_code.setValidator(QIntValidator())
+        self.mys1_code.setMaxLength(2)
         self.mys1_msg = QTextEdit(self.mys1)
         self.mys1_msg.setGeometry(QRect(10, 20, 191, 161))
         self.tabs.addTab(self.mys1, "Invisible sheet")
@@ -47,6 +48,7 @@ class SettingsWindow(QWidget):
         self.mys2_code = QLineEdit(self.mys2)
         self.mys2_code.setGeometry(QRect(10, 220, 31, 20))
         self.mys2_code.setValidator(QIntValidator())
+        self.mys2_code.setMaxLength(2)
         self.mys2_msg = QTextEdit(self.mys2)
         self.mys2_msg.setGeometry(QRect(10, 20, 191, 161))
         self.tabs.addTab(self.mys2, "Hidden sheet")
@@ -63,6 +65,7 @@ class SettingsWindow(QWidget):
         self.quiz_code = QLineEdit(self.quiz)
         self.quiz_code.setGeometry(QRect(10, 270, 31, 20))
         self.quiz_code.setValidator(QIntValidator())
+        self.quiz_code.setMaxLength(2)
         self.label_14 = QLabel(self.quiz)
         self.label_14.setGeometry(QRect(200, 210, 231, 21))
         self.label_15 = QLabel(self.quiz)
@@ -76,8 +79,9 @@ class SettingsWindow(QWidget):
         self.safe_code = QLineEdit(self.safe)
         self.safe_code.setGeometry(QRect(10, 60, 113, 20))
         self.safe_code.setValidator(QIntValidator())
+        self.safe_code.setMaxLength(6)
         self.label_3 = QLabel(self.safe)
-        self.label_3.setGeometry(QRect(130, 60, 61, 16))
+        self.label_3.setGeometry(QRect(130, 60, 100, 16))
         self.tabs.addTab(self.safe, "Safe code")
 
         self.end_button = QPushButton("End configuration", self)
@@ -98,7 +102,7 @@ class SettingsWindow(QWidget):
         self.label_14.setText("* Message suggesting the order of safe codes")
         self.label_15.setText("Part of safe code (2 digits)")
 
-        self.label_3.setText("Safe code")
+        self.label_3.setText("Safe code (6 digits)")
 
     def confirm_questions(self):
         i=len(self.question_tabs)
