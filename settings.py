@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QTabWidget, QTextEdit, QLineEdit, QRadioButton
 from PyQt5.QtCore import QRect, QCoreApplication, QMetaObject
+from PyQt5.QtGui import QIntValidator
 
 
 
@@ -31,10 +32,11 @@ class SettingsWindow(QWidget):
         self.label_4.setGeometry(QRect(200, 160, 231, 21))
         self.label_5 = QLabel(self.mys1)
         self.label_5.setGeometry(QRect(50, 220, 141, 21))
-        self.lineEdit_3 = QLineEdit(self.mys1)
-        self.lineEdit_3.setGeometry(QRect(10, 220, 31, 20))
-        self.textEdit_2 = QTextEdit(self.mys1)
-        self.textEdit_2.setGeometry(QRect(10, 20, 191, 161))
+        self.mys1_code = QLineEdit(self.mys1)
+        self.mys1_code.setGeometry(QRect(10, 220, 31, 20))
+        self.mys1_code.setValidator(QIntValidator())
+        self.mys1_msg = QTextEdit(self.mys1)
+        self.mys1_msg.setGeometry(QRect(10, 20, 191, 161))
         self.tabs.addTab(self.mys1, "Invisible sheet")
 
         self.mys2 = QWidget()
@@ -42,15 +44,17 @@ class SettingsWindow(QWidget):
         self.label_6.setGeometry(QRect(200, 160, 231, 21))
         self.label_7 = QLabel(self.mys2)
         self.label_7.setGeometry(QRect(50, 220, 141, 21))
-        self.lineEdit_4 = QLineEdit(self.mys2)
-        self.lineEdit_4.setGeometry(QRect(10, 220, 31, 20))
-        self.textEdit_3 = QTextEdit(self.mys2)
-        self.textEdit_3.setGeometry(QRect(10, 20, 191, 161))
+        self.mys2_code = QLineEdit(self.mys2)
+        self.mys2_code.setGeometry(QRect(10, 220, 31, 20))
+        self.mys2_code.setValidator(QIntValidator())
+        self.mys2_msg = QTextEdit(self.mys2)
+        self.mys2_msg.setGeometry(QRect(10, 20, 191, 161))
         self.tabs.addTab(self.mys2, "Hidden sheet")
 
         self.quiz = QWidget()
         self.questions_num = QLineEdit(self.quiz)
         self.questions_num.setGeometry(QRect(10, 20, 61, 20))
+        self.questions_num.setValidator(QIntValidator())
         self.label_8 = QLabel(self.quiz)
         self.label_8.setGeometry(QRect(80, 20, 101, 16))
         self.conf_q = QPushButton("Confirm", self.quiz)
@@ -58,6 +62,7 @@ class SettingsWindow(QWidget):
         self.conf_q.clicked.connect(self.confirm_questions)
         self.quiz_code = QLineEdit(self.quiz)
         self.quiz_code.setGeometry(QRect(10, 270, 31, 20))
+        self.quiz_code.setValidator(QIntValidator())
         self.label_14 = QLabel(self.quiz)
         self.label_14.setGeometry(QRect(200, 210, 231, 21))
         self.label_15 = QLabel(self.quiz)
@@ -68,8 +73,9 @@ class SettingsWindow(QWidget):
         self.question_tabs=[]
 
         self.safe = QWidget()
-        self.lineEdit_2 = QLineEdit(self.safe)
-        self.lineEdit_2.setGeometry(QRect(10, 60, 113, 20))
+        self.safe_code = QLineEdit(self.safe)
+        self.safe_code.setGeometry(QRect(10, 60, 113, 20))
+        self.safe_code.setValidator(QIntValidator())
         self.label_3 = QLabel(self.safe)
         self.label_3.setGeometry(QRect(130, 60, 61, 16))
         self.tabs.addTab(self.safe, "Safe code")
