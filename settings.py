@@ -118,7 +118,32 @@ class SettingsWindow(QWidget):
 
     def create_question_tab(self, num):
         self.question_tabs.append(QuestionTab())
-        self.tabs.addTab(self.question_tabs[num], f"Question {num+1}")      
+        self.tabs.addTab(self.question_tabs[num], f"Question {num+1}")
+    def end_conf(self):
+        settings=""
+        if len(self.rew_msg.text())>0:
+            settings+=self.rew_msg.text()+"\n"
+        else:
+            print("Fill the reward message")
+            return 0
+        settings+=self.game_code.text()+"\n"
+        settings+=self.mys1_msg.text()+"\n"
+        if len(self.mys1_code.text())==2:
+            settings+=self.mys1_code.text()+"\n"
+        else:
+            print("Fill the invisible sheet safe code")
+            return 0
+        settings+=self.mys2_msg.text()+"\n"
+        if len(self.mys2_code.text())==2:
+            settings+=self.mys2_code.text()+"\n"
+        else:
+            print("Fill the hidden sheet safe code")
+        if len(self.questions_num.text())>0 and self.questions_num.text()!=0:
+            i=1
+            for que in self.question_tabs:
+                if len(que.q_question.text())>0 and len(que.q_ans1.text())>0 and len(que.q_ans2.text())>0 and len(que.q_ans3.text())>0:
+                    pass
+
 
 class QuestionTab(QWidget):
     def __init__(self):
@@ -155,7 +180,7 @@ class QuestionTab(QWidget):
         self.label3.setText("Second answer")
         self.label4.setText("Third answer")
         self.label5.setText("Check the right answer")
-            
+
 
 
 if __name__ == "__main__":
