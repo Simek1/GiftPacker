@@ -140,9 +140,16 @@ class SettingsWindow(QWidget):
             print("Fill the hidden sheet safe code")
         if len(self.questions_num.text())>0 and self.questions_num.text()!=0:
             i=1
+            settings+=self.questions_num.text()+"\n"
             for que in self.question_tabs:
                 if len(que.q_question.text())>0 and len(que.q_ans1.text())>0 and len(que.q_ans2.text())>0 and len(que.q_ans3.text())>0:
-                    pass
+                    print("Fill all questions details")
+                    break #change to return later
+                settings+=que.q_question.text()+"\n"
+                settings+=que.q_ans1.text()+"\n"
+                settings+=que.q_ans2.text()+"\n"
+                settings+=que.q_ans3.text()+"\n"
+                #isChecked
 
 
 class QuestionTab(QWidget):
