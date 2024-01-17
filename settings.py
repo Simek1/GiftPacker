@@ -86,6 +86,7 @@ class SettingsWindow(QWidget):
 
         self.end_button = QPushButton("End configuration", self)
         self.end_button.setGeometry(QRect(404, 340, 101, 23))
+        self.end_button.clicked.connect(self.end_conf)
 
         self.setWindowTitle("GiftPacker")
 
@@ -121,35 +122,46 @@ class SettingsWindow(QWidget):
         self.tabs.addTab(self.question_tabs[num], f"Question {num+1}")
     def end_conf(self):
         settings=""
-        if len(self.rew_msg.text())>0:
-            settings+=self.rew_msg.text()+"\n"
+        if len(self.rew_msg.toPlainText())>0:
+            settings+=self.rew_msg.toPlainText()+"\n"
         else:
             print("Fill the reward message")
             return 0
         settings+=self.game_code.text()+"\n"
-        settings+=self.mys1_msg.text()+"\n"
+        settings+=self.mys1_msg.toPlainText()+"\n"
         if len(self.mys1_code.text())==2:
             settings+=self.mys1_code.text()+"\n"
         else:
             print("Fill the invisible sheet safe code")
             return 0
-        settings+=self.mys2_msg.text()+"\n"
+        settings+=self.mys2_msg.toPlainText()+"\n"
         if len(self.mys2_code.text())==2:
             settings+=self.mys2_code.text()+"\n"
         else:
             print("Fill the hidden sheet safe code")
-        if len(self.questions_num.text())>0 and self.questions_num.text()!=0:
-            i=1
+            return 0
+        if len(self.safe_code.text())<6:
+            print("Safe code is incorrect")
+            return 0
+        else:
+            settings+=self.safe_code.text()+"\n"
+        if len(self.questions_num.text())>0 and self.questions_num.text()!="0":
             settings+=self.questions_num.text()+"\n"
             for que in self.question_tabs:
-                if len(que.q_question.text())>0 and len(que.q_ans1.text())>0 and len(que.q_ans2.text())>0 and len(que.q_ans3.text())>0:
+                if len(que.q_question.toPlainText())>0 and len(que.q_ans1.text())>0 and len(que.q_ans2.text())>0 and len(que.q_ans3.text())>0:
                     print("Fill all questions details")
-                    break #change to return later
-                settings+=que.q_question.text()+"\n"
+                    return 0
+                settings+=que.q_question.toPlainText()+"\n"
                 settings+=que.q_ans1.text()+"\n"
                 settings+=que.q_ans2.text()+"\n"
                 settings+=que.q_ans3.text()+"\n"
-                #isChecked
+                if que.radioButton.isChecked():
+                    settings+="1\n"
+                elif que.radioButton2.isChecked():
+                    settings+="2\n"
+                else:
+                    settings+="3\n"
+        print(settings)
 
 
 class QuestionTab(QWidget):
