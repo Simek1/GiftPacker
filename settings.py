@@ -1,7 +1,12 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QTabWidget, QTextEdit, QLineEdit, QRadioButton
-from PyQt5.QtCore import QRect, QCoreApplication, QMetaObject
+import os
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QTabWidget, QTextEdit, QLineEdit, QRadioButton
+from PyQt5.QtCore import QRect
 from PyQt5.QtGui import QIntValidator
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from base64 import urlsafe_b64encode, urlsafe_b64decode
 
 
 
@@ -147,22 +152,46 @@ class SettingsWindow(QWidget):
             settings+=self.safe_code.text()+"\n"
         if len(self.questions_num.text())>0 and self.questions_num.text()!="0":
             settings+=self.questions_num.text()+"\n"
-            for que in self.question_tabs:
-                if len(que.q_question.toPlainText())>0 and len(que.q_ans1.text())>0 and len(que.q_ans2.text())>0 and len(que.q_ans3.text())>0:
-                    print("Fill all questions details")
-                    return 0
-                settings+=que.q_question.toPlainText()+"\n"
-                settings+=que.q_ans1.text()+"\n"
-                settings+=que.q_ans2.text()+"\n"
-                settings+=que.q_ans3.text()+"\n"
-                if que.radioButton.isChecked():
-                    settings+="1\n"
-                elif que.radioButton2.isChecked():
-                    settings+="2\n"
-                else:
-                    settings+="3\n"
-        print(settings)
-
+            if len(self.question_tabs)==int(self.questions_num.text()):
+                for que in self.question_tabs:
+                    if len(que.q_question.toPlainText())>0 and len(que.q_ans1.toPlainText())>0 and len(que.q_ans2.toPlainText())>0 and len(que.q_ans3.toPlainText())>0:
+                        print("Fill all questions details")
+                        return 0
+                    settings+=que.q_question.toPlainText()+"\n"
+                    settings+=que.q_ans1.toPlainText()+"\n"
+                    settings+=que.q_ans2.toPlainText()+"\n"
+                    settings+=que.q_ans3.toPlainText()+"\n"
+                    if que.radioButton.isChecked():
+                        settings+="1\n"
+                    elif que.radioButton2.isChecked():
+                        settings+="2\n"
+                    elif que.radioButton3.isChecked():
+                        settings+="3\n"
+                    else:
+                        print("Check answer in all questions")
+                        return 0
+            else:
+                print("Confirm number of questions")
+                return 0
+        #settings crypting
+        salt=os.os.urandom(16)
+        with open("conf/salt.bin", "wb") as salt_file:
+            salt_file.write(salt)
+        kdf=PBKDF2HMAC(
+            algorithm=algorithms.SHA256(),
+            iterations=100000,
+            salt=salt,
+            length=32
+            )
+        key=kdf.derive("ustawienia".encode())
+        with open("conf/key.key", "wb") as key_file:
+            key_file.write(key)
+        cipher = Cipher(algorithms.AES(key), modes.CFB8(), backend=default_backend())
+        encryptor = cipher.encryptor()
+        ciphertext = encryptor.update(settings.encode()) + encryptor.finalize()
+        settings=urlsafe_b64encode(ciphertext)
+        with open("conf/settings.bin", "wb") as settings_file:
+            settings_file.write(settings)
 
 class QuestionTab(QWidget):
     def __init__(self):
