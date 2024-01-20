@@ -5,6 +5,7 @@ from PyQt5.QtCore import QRect
 from PyQt5.QtGui import QIntValidator
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 
@@ -155,38 +156,41 @@ class SettingsWindow(QWidget):
             if len(self.question_tabs)==int(self.questions_num.text()):
                 for que in self.question_tabs:
                     if len(que.q_question.toPlainText())>0 and len(que.q_ans1.toPlainText())>0 and len(que.q_ans2.toPlainText())>0 and len(que.q_ans3.toPlainText())>0:
-                        print("Fill all questions details")
-                        return 0
-                    settings+=que.q_question.toPlainText()+"\n"
-                    settings+=que.q_ans1.toPlainText()+"\n"
-                    settings+=que.q_ans2.toPlainText()+"\n"
-                    settings+=que.q_ans3.toPlainText()+"\n"
-                    if que.radioButton.isChecked():
-                        settings+="1\n"
-                    elif que.radioButton2.isChecked():
-                        settings+="2\n"
-                    elif que.radioButton3.isChecked():
-                        settings+="3\n"
+                        settings+=que.q_question.toPlainText()+"\n"
+                        settings+=que.q_ans1.toPlainText()+"\n"
+                        settings+=que.q_ans2.toPlainText()+"\n"
+                        settings+=que.q_ans3.toPlainText()+"\n"
+                        if que.radioButton.isChecked():
+                            settings+="1\n"
+                        elif que.radioButton2.isChecked():
+                            settings+="2\n"
+                        elif que.radioButton3.isChecked():
+                            settings+="3\n"
+                        else:
+                            print("Check answer in all questions")
+                            return 0
                     else:
-                        print("Check answer in all questions")
+                        print("Fill all questions details")
                         return 0
             else:
                 print("Confirm number of questions")
                 return 0
         #settings crypting
-        salt=os.os.urandom(16)
+        salt=os.urandom(16)
+        if not os.path.exists("conf"):
+            os.makedirs("conf")
         with open("conf/salt.bin", "wb") as salt_file:
             salt_file.write(salt)
         kdf=PBKDF2HMAC(
-            algorithm=algorithms.SHA256(),
+            algorithm=hashes.SHA256(),
             iterations=100000,
             salt=salt,
-            length=32
+            length=32+16
             )
         key=kdf.derive("ustawienia".encode())
         with open("conf/key.key", "wb") as key_file:
             key_file.write(key)
-        cipher = Cipher(algorithms.AES(key), modes.CFB8(), backend=default_backend())
+        cipher = Cipher(algorithms.AES(key[:32]), modes.CFB8(key[32:]), backend=default_backend())
         encryptor = cipher.encryptor()
         ciphertext = encryptor.update(settings.encode()) + encryptor.finalize()
         settings=urlsafe_b64encode(ciphertext)
