@@ -20,8 +20,11 @@ if __name__ == '__main__':
 			window.show()	
 			window2=Tablet()
 			window.destroyed.connect(openSecondWindow)
-		except:
-			pass
+		except Exception as err:
+			window.destroy()
+			setup_window=SettingsWindow()
+			setup_window.show()
+			print(err)
 	else:
 		app = QApplication(sys.argv)
 		setup_window=SettingsWindow()

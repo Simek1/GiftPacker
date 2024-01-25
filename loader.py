@@ -36,7 +36,7 @@ class Settings(object):
                     answers.append(settings[i+1])
                     answers.append(settings[i+2])
                     answers.append(settings[i+3])
-                    answers.append(settings[i+4])
+                    answers.append(int(settings[i+4]))
                     self.answers.append(answers)
             except:
                 print("Corupted settings file")

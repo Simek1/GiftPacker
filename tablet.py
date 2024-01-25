@@ -1,7 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QAction, QMenu, QPushButton
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QMenu, QPushButton
 from PyQt5.QtGui import QPixmap, QRegion, QFont
 from PyQt5.QtCore import Qt, QTimer
+from loader import Settings
 
 class Tablet(QWidget):
 	def __init__(self):
@@ -12,6 +13,7 @@ class Tablet(QWidget):
 		self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 		self.setWindowTitle("GiftPacker")
+		sett=Settings()
 
 		self.tabletoff=QPixmap("imgs/tabletoff.png")
 		self.tableton=QPixmap("imgs/tableton.png")
@@ -49,13 +51,13 @@ class Tablet(QWidget):
 		self.invisible_sheet.setPixmap(self.sheet)
 		self.invisible_sheet.setGeometry(-self.pos().x()+20, -self.pos().y()+20, self.sheet.width(), self.sheet.height())
 
-		i_s_txt="Morgana dla Kayle zawsze nią była, bo później się urodziła."
+		i_s_txt=sett.mys1_msg
 		self.invisible_sheet_txt=QLabel(i_s_txt, self)
 		self.invisible_sheet_txt.setGeometry(-self.pos().x()+20, -self.pos().y()+20, self.sheet.width(), int(self.sheet.height()/2))
 		self.invisible_sheet_txt.setWordWrap(True)
 		self.invisible_sheet_txt.lower()
 
-		i_s_code="69"
+		i_s_code=sett.mys1_code
 
 		self.invisible_sheet_code=QLabel(i_s_code, self)
 		self.invisible_sheet_code.setGeometry(-self.pos().x()+20+int(self.sheet.width()/2), -self.pos().y()+20+int(self.sheet.height()*(2/3)),
@@ -78,20 +80,10 @@ class Tablet(QWidget):
 
 		self.rolled_sheet=RolledSheet(self.pos().x(), self.pos().y(), self.width(), self.height())
 
-		self.light=Light(50+self.pos().x(), self.pos().y()+55, self.rolled_sheet)
+		self.light=Light(50+self.pos().x(), self.pos().y()+55, self.rolled_sheet, sett)
 
-		self.questions=["Ile skinów aktualnie posiada kennen?",
-				   "Ile lat żyją osoby władające mocami tytanów?",
-				   "Kiedy można slayować?",
-				   "Ile razy mi zdechła karta graficzna?",
-				   "W którym roku zakazano slaveowania?",
-				   "Slay?"]
-		self.answers=[["A) 11", "B) 9", "C) 7", 1],
-				 ["A) 15 lat", "B) 13 lat", "C) 7 lat", 2],
-				 ["A) Zawsze", "B) W noc oczyszczenia", "C) Nie można slayować bo to nielegalne", 1],
-				 ["A) Raz", "B) Dwa razy", "C) Nigdy", 1],
-				 ["A) 1769 rok", "B) 1720 rok", "C) 1885 rok", 3],
-				 ["A) Może", "B) Nie chcem", "C) Yas queen", 3]]
+		self.questions=sett.questions
+		self.answers=sett.answers
 
 		self.question=QLabel("", self)
 		self.question.setGeometry(360, 140, 400, 50)
@@ -116,10 +108,10 @@ class Tablet(QWidget):
 		self.question_index=0
 		self.anses=[self.ans1, self.ans2, self.ans3]
 
-		self.quiz_msg="Biały dla szachisty,\nAs dla pokerzysty."
-		self.quiz_code="66"
+		self.quiz_msg=sett.quiz_msg
+		self.quiz_code=sett.quiz_code
 
-		self.safe_password="666942"
+		self.safe_password=sett.safe_code
 		self.safe_input=QLabel("",self)
 		self.safe_input.setAlignment(Qt.AlignCenter)
 		self.safe_input.setGeometry(291, 104, 200, 33)
@@ -128,8 +120,8 @@ class Tablet(QWidget):
 		self.safe_font.setPointSize(30) 
 		self.safe_input.setFont(self.safe_font)
 
-		self.safe_msg=""
-		self.safe_code=""
+		self.safe_msg=sett.rew_msg
+		self.safe_code=sett.game_code
 
 		self.victory_msg=QLabel(self.safe_msg, self)
 		self.victory_msg.setWordWrap(True)
@@ -343,11 +335,11 @@ class Tablet(QWidget):
 
 
 class Light(QWidget):
-	def __init__(self, pos_x, pos_y, rolled_sheet):
+	def __init__(self, pos_x, pos_y, rolled_sheet, sett):
 		super().__init__()
-		self.initUI(pos_x, pos_y, rolled_sheet)
+		self.initUI(pos_x, pos_y, rolled_sheet, sett)
 
-	def initUI(self, pos_x, pos_y, rolled_sheet):
+	def initUI(self, pos_x, pos_y, rolled_sheet, sett):
 		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
@@ -359,7 +351,7 @@ class Light(QWidget):
 
 		self.rolled_sheet=rolled_sheet
 
-		i_s_txt="Ultem go też zwają, gdyż w kolejności go dostają"
+		i_s_txt=sett.mys2_msg
 		self.sheet_txt=QLabel(i_s_txt, self)
 		sheet_global_pos=self.mapFromGlobal(self.rolled_sheet.pos())
 		self.sheet_txt.setGeometry(sheet_global_pos.x()+20, sheet_global_pos.y()+20,
@@ -367,7 +359,7 @@ class Light(QWidget):
 		self.sheet_txt.setWordWrap(True)
 		self.sheet_txt.lower()
 
-		i_s_code="42"
+		i_s_code=sett.mys2_code
 
 		self.sheet_code=QLabel(i_s_code, self)
 		self.sheet_code.setGeometry(sheet_global_pos.x()+20+int(self.rolled_sheet.sheet.width()/2),
