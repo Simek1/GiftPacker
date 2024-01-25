@@ -151,6 +151,12 @@ class SettingsWindow(QWidget):
             return 0
         else:
             settings+=self.safe_code.text()+"\n"
+        if len(self.quiz_code.text())==2:
+            settings+=self.quiz_code.text()+"\n"
+        else:
+            print("Fill the quiz code")
+            return 0
+        settings+=self.quiz_msg.toPlainText()+"\n"
         if len(self.questions_num.text())>0 and self.questions_num.text()!="0":
             settings+=self.questions_num.text()+"\n"
             if len(self.question_tabs)==int(self.questions_num.text()):

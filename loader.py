@@ -25,10 +25,12 @@ class Settings(object):
                 self.mys2_msg=settings[4]
                 self.mys2_code=settings[5]
                 self.safe_code=settings[6]
-                self.questions_num=int(settings[7])
+                self.quiz_code=settings[7]
+                self.quiz_msg=settings[8]
+                self.questions_num=int(settings[9])
                 self.questions=[]
                 self.answers=[]
-                for i in range(8,8+self.questions_num*5, 5):
+                for i in range(10,10+self.questions_num*5, 5):
                     answers=[]
                     self.questions.append(settings[i])
                     answers.append(settings[i+1])
@@ -38,10 +40,10 @@ class Settings(object):
                     self.answers.append(answers)
             except:
                 print("Corupted settings file")
-                return 0
+                return None
         else:
             print("Corrupted settings file")
-            return 0
+            return None
 
 if __name__ == "__main__":
     setts=Settings()
