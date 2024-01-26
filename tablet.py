@@ -37,23 +37,23 @@ class Tablet(QWidget):
 		self.scalar=1
 
 		if self.screen_width<1920:
-			self.scalar=self.screen_width/1920
+			self.scalar=int(self.screen_width/1920)
 			for i in range(len(imgs)):
-				imgs[i]=imgs[i].scaled(int(imgs[i].width()*self.scalar), int(imgs[i].height()*self.scalar))
+				imgs[i]=imgs[i].scaled(imgs[i].width()*self.scalar, imgs[i].height()*self.scalar)
 				i+=1
 
 		self.label=QLabel(self)
 		self.label.setPixmap(self.tabletoff)
-		self.label.setGeometry(0, 0, self.tabletoff.width(), self.tabletoff.height())
-		self.setGeometry(int(self.screen_width/2)-int(self.tabletoff.width()/2), int(screen_height/2)-int(self.tabletoff.height()/2), self.tabletoff.width(), self.tabletoff.height())
+		self.label.setGeometry(0, 0, self.tabletoff.width()*self.scalar, self.tabletoff.height()*self.scalar)
+		self.setGeometry((int(self.screen_width/2)-int(self.tabletoff.width()/2))*self.scalar, (int(screen_height/2)-int(self.tabletoff.height()/2))*self.scalar, self.tabletoff.width()*self.scalar, self.tabletoff.height()*self.scalar)
 
 		self.invisible_sheet=QLabel(self)
 		self.invisible_sheet.setPixmap(self.sheet)
-		self.invisible_sheet.setGeometry(-self.pos().x()+20, -self.pos().y()+20, self.sheet.width(), self.sheet.height())
+		self.invisible_sheet.setGeometry((-self.pos().x()+20)*self.scalar, (-self.pos().y()+20)*self.scalar, self.sheet.width()*self.scalar, self.sheet.height()*self.scalar)
 
 		i_s_txt=sett.mys1_msg
 		self.invisible_sheet_txt=QLabel(i_s_txt, self)
-		self.invisible_sheet_txt.setGeometry(-self.pos().x()+20, -self.pos().y()+20, self.sheet.width(), int(self.sheet.height()/2))
+		self.invisible_sheet_txt.setGeometry((-self.pos().x()+20)*self.scalar, (-self.pos().y()+20)*self.scalar, self.sheet.width()*self.scalar, int(self.sheet.height()/2)*self.scalar)
 		self.invisible_sheet_txt.setWordWrap(True)
 		self.invisible_sheet_txt.lower()
 
