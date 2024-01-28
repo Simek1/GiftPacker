@@ -44,23 +44,23 @@ class Tablet(QWidget):
 
 		self.label=QLabel(self)
 		self.label.setPixmap(self.tabletoff)
-		self.label.setGeometry(0, 0, self.tabletoff.width()*self.scalar, self.tabletoff.height()*self.scalar)
-		self.setGeometry((int(self.screen_width/2)-int(self.tabletoff.width()/2))*self.scalar, (int(screen_height/2)-int(self.tabletoff.height()/2))*self.scalar, self.tabletoff.width()*self.scalar, self.tabletoff.height()*self.scalar)
+		self.label.setGeometry(0, 0, self.tabletoff.width(), self.tabletoff.height())
+		self.setGeometry((int(self.screen_width/2)-int(self.tabletoff.width()/2))*self.scalar, (int(screen_height/2)-int(self.tabletoff.height()/2))*self.scalar, self.tabletoff.width(), self.tabletoff.height())
 
 		self.invisible_sheet=QLabel(self)
 		self.invisible_sheet.setPixmap(self.sheet)
-		self.invisible_sheet.setGeometry((-self.pos().x()+20)*self.scalar, (-self.pos().y()+20)*self.scalar, self.sheet.width()*self.scalar, self.sheet.height()*self.scalar)
+		self.invisible_sheet.setGeometry((-self.pos().x()+20)*self.scalar, (-self.pos().y()+20)*self.scalar, self.sheet.width(), self.sheet.height())
 
 		i_s_txt=sett.mys1_msg
 		self.invisible_sheet_txt=QLabel(i_s_txt, self)
-		self.invisible_sheet_txt.setGeometry((-self.pos().x()+20)*self.scalar, (-self.pos().y()+20)*self.scalar, self.sheet.width()*self.scalar, int(self.sheet.height()/2)*self.scalar)
+		self.invisible_sheet_txt.setGeometry((-self.pos().x()+20)*self.scalar, (-self.pos().y()+20)*self.scalar, self.sheet.width(), int(self.sheet.height()/2))
 		self.invisible_sheet_txt.setWordWrap(True)
 		self.invisible_sheet_txt.lower()
 
 		i_s_code=sett.mys1_code
 
 		self.invisible_sheet_code=QLabel(i_s_code, self)
-		self.invisible_sheet_code.setGeometry(-self.pos().x()+20+int(self.sheet.width()/2), -self.pos().y()+20+int(self.sheet.height()*(2/3)),
+		self.invisible_sheet_code.setGeometry((-self.pos().x()+20)*self.scalar+int(self.sheet.width()/2), (-self.pos().y()+20)*self.scalar+int(self.sheet.height()*(2/3)),
 											 int(self.sheet.width()/2), int(self.sheet.height()*(1/3)))
 		self.invisible_sheet_code.setWordWrap(True)
 		self.invisible_sheet_code.lower()
@@ -78,30 +78,30 @@ class Tablet(QWidget):
 		self.quiz_finished=False
 		self.safe_open=False
 
-		self.rolled_sheet=RolledSheet(self.pos().x(), self.pos().y(), self.width(), self.height())
+		self.rolled_sheet=RolledSheet(self.pos().x(), self.pos().y(), self.width(), self.height(), self.scalar)
 
-		self.light=Light(50+self.pos().x(), self.pos().y()+55, self.rolled_sheet, sett)
+		self.light=Light((50+self.pos().x())*self.scalar, (self.pos().y()+55)*self.scalar, self.rolled_sheet, sett, self.scalar)
 
 		self.questions=sett.questions
 		self.answers=sett.answers
 
 		self.question=QLabel("", self)
-		self.question.setGeometry(360, 140, 400, 50)
+		self.question.setGeometry(360*self.scalar, 140*self.scalar, 400*self.scalar, 50*self.scalar)
 		self.question.setWordWrap(True)
 		self.question.setAlignment(Qt.AlignCenter)
 
 		self.ans1=QLabel("", self)
-		self.ans1.setGeometry(360, 220, 400, 50)
+		self.ans1.setGeometry(360*self.scalar, 220*self.scalar, 400*self.scalar, 50*self.scalar)
 		self.ans1.setWordWrap(True)
 		self.ans1.setAlignment(Qt.AlignLeft)
 
 		self.ans2=QLabel("", self)
-		self.ans2.setGeometry(360, 290, 400, 50)
+		self.ans2.setGeometry(360*self.scalar, 290*self.scalar, 400*self.scalar, 50*self.scalar)
 		self.ans2.setWordWrap(True)
 		self.ans2.setAlignment(Qt.AlignLeft)
 
 		self.ans3=QLabel("", self)
-		self.ans3.setGeometry(360, 360, 400, 50)
+		self.ans3.setGeometry(360*self.scalar, 360*self.scalar, 400*self.scalar, 50*self.scalar)
 		self.ans3.setWordWrap(True)
 		self.ans3.setAlignment(Qt.AlignLeft)
 
@@ -114,10 +114,10 @@ class Tablet(QWidget):
 		self.safe_password=sett.safe_code
 		self.safe_input=QLabel("",self)
 		self.safe_input.setAlignment(Qt.AlignCenter)
-		self.safe_input.setGeometry(291, 104, 200, 33)
+		self.safe_input.setGeometry(291*self.scalar, 104*self.scalar, 200*self.scalar, 33*self.scalar)
 		
 		self.safe_font = QFont()
-		self.safe_font.setPointSize(30) 
+		self.safe_font.setPointSize(30*self.scalar) 
 		self.safe_input.setFont(self.safe_font)
 
 		self.safe_msg=sett.rew_msg
@@ -125,20 +125,20 @@ class Tablet(QWidget):
 
 		self.victory_msg=QLabel(self.safe_msg, self)
 		self.victory_msg.setWordWrap(True)
-		self.victory_msg.setGeometry(50, 50, 685, 220)
+		self.victory_msg.setGeometry(50*self.scalar, 50*self.scalar, 685*self.scalar, 220*self.scalar)
 		self.victory_msg.setAlignment(Qt.AlignCenter)
 		self.victory_msg.setFont(self.safe_font)
 		self.victory_msg.hide()
 
 		self.victory_code=QLabel(self.safe_code, self)
 		self.victory_code.setWordWrap(True)
-		self.victory_code.setGeometry(50, 290, 685, 87)
+		self.victory_code.setGeometry(50*self.scalar, 290*self.scalar, 685*self.scalar, 87*self.scalar)
 		self.victory_code.setAlignment(Qt.AlignCenter)
 		self.victory_code.setFont(self.safe_font)
 		self.victory_code.hide()
 
 		self.copy_button = QPushButton('Copy code', self)
-		self.copy_button.move(650,345)
+		self.copy_button.move(650*self.scalar,345*self.scalar)
 		self.copy_button.clicked.connect(self.copy)
 		self.copy_button.hide()
 
@@ -152,7 +152,7 @@ class Tablet(QWidget):
 		
 	def mousePressEvent(self, event):
 		if event.button()==Qt.LeftButton:
-			if 44<=event.x()<=74 and 382<=event.y()<=412:
+			if 44*self.scalar<=event.x()<=74*self.scalar and 382*self.scalar<=event.y()<=412*self.scalar:
 				if self.tablet_on:
 					self.label.setPixmap(self.tabletoff)
 					self.tablet_on=False
@@ -164,22 +164,22 @@ class Tablet(QWidget):
 				else:
 					self.label.setPixmap(self.tableton)
 					self.tablet_on=True
-			elif 51<=event.x()<=130 and 48<=event.y()<=128 and self.tablet_on: #kamera
+			elif 51*self.scalar<=event.x()<=130*self.scalar and 48*self.scalar<=event.y()<=128*self.scalar and self.tablet_on: #kamera
 				self.label.setPixmap(self.tabletcam)
 				self.cam_on=True
 				self.tablet_on=False
-			elif 165<=event.x()<=245 and 48<=event.y()<=128 and self.tablet_on: #latarka
+			elif 165*self.scalar<=event.x()<=245*self.scalar and 48*self.scalar<=event.y()<=128*self.scalar and self.tablet_on: #latarka
 				if self.light_on:
 					self.light_on=False
 					self.light.hide()
 				else:
 					self.light_on=True
 					self.light.show()
-			elif 279<=event.x()<=357 and 48<=event.y()<=128 and self.tablet_on: #quiz
+			elif 279*self.scalar<=event.x()<=357*self.scalar and 48*self.scalar<=event.y()<=128*self.scalar and self.tablet_on: #quiz
 				self.label.setPixmap(self.tabletquiz)
 				self.quiz_on=True
 				self.tablet_on=False
-			elif 745<=event.x()<=785 and 0<=event.y()<=40 and self.flipped==False: #flip
+			elif 745*self.scalar<=event.x()<=785*self.scalar and 0<=event.y()<=40*self.scalar and self.flipped==False: #flip
 				self.label.setPixmap(self.tabletback)
 				self.flipped=True
 				self.tablet_on=False
@@ -194,7 +194,7 @@ class Tablet(QWidget):
 					if self.rolled_sheet.sheet_rolled==False:
 						self.rolled_sheet.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
 						self.rolled_sheet.show()
-			elif 0<=event.x()<=41 and 0<=event.y()<=40 and self.flipped: #flip
+			elif 0<=event.x()<=41*self.scalar and 0<=event.y()<=40*self.scalar and self.flipped: #flip
 				self.label.setPixmap(self.tabletoff)
 				self.flipped=False
 				self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
@@ -204,11 +204,11 @@ class Tablet(QWidget):
 					if self.rolled_sheet.sheet_rolled==False:
 						self.rolled_sheet.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool | Qt.WindowStaysOnTopHint)
 						self.rolled_sheet.show()
-			elif 496<=event.x()<=578 and 233<=event.y()<=264 and self.quiz_on: #exit quiz
+			elif 496*self.scalar<=event.x()<=578*self.scalar and 233*self.scalar<=event.y()<=264*self.scalar and self.quiz_on: #exit quiz
 				self.label.setPixmap(self.tableton)
 				self.quiz_on=False
 				self.tablet_on=True
-			elif 483<=event.x()<=590 and 164<=event.y()<=194 and self.quiz_on: #start quiz
+			elif 483*self.scalar<=event.x()<=590*self.scalar and 164*self.scalar<=event.y()<=194*self.scalar and self.quiz_on: #start quiz
 				self.label.setPixmap(self.quizmode)
 				self.quiz_mode=True
 				self.question.setText(self.questions[0])
@@ -219,42 +219,42 @@ class Tablet(QWidget):
 				self.ans1.show()
 				self.ans2.show()
 				self.ans3.show()
-			elif 360<=event.x()<=760 and 220<=event.y()<=270 and self.quiz_mode:
+			elif 360*self.scalar<=event.x()<=760*self.scalar and 220*self.scalar<=event.y()<=270*self.scalar and self.quiz_mode:
 				self.check_answer(1)
-			elif 360<=event.x()<=760 and 290<=event.y()<=340 and self.quiz_mode:
+			elif 360*self.scalar<=event.x()<=760*self.scalar and 290*self.scalar<=event.y()<=340*self.scalar and self.quiz_mode:
 				self.check_answer(2)
-			elif 360<=event.x()<=760 and 360<=event.y()<=410 and self.quiz_mode:
+			elif 360*self.scalar<=event.x()<=760*self.scalar and 360*self.scalar<=event.y()<=410*self.scalar and self.quiz_mode:
 				self.check_answer(3)
-			elif 392<=event.x()<=470 and 48<=event.y()<=128 and self.tablet_on:
+			elif 392*self.scalar<=event.x()<=470*self.scalar and 48*self.scalar<=event.y()<=128*self.scalar and self.tablet_on:
 				self.tablet_on=False
 				self.safe_on=True
 				self.label.setPixmap(self.safe)
 				self.safe_input.show()
-			elif 292<=event.x()<=347 and 166<=event.y()<=221 and self.safe_on:
+			elif 292*self.scalar<=event.x()<=347*self.scalar and 166*self.scalar<=event.y()<=221*self.scalar and self.safe_on:
 				self.safe_enter("1")
-			elif 366<=event.x()<=420 and 166<=event.y()<=221 and self.safe_on:
+			elif 366*self.scalar<=event.x()<=420*self.scalar and 166*self.scalar<=event.y()<=221*self.scalar and self.safe_on:
 				self.safe_enter("2")
-			elif 438<=event.x()<=492 and 166<=event.y()<=221 and self.safe_on:
+			elif 438*self.scalar<=event.x()<=492*self.scalar and 166*self.scalar<=event.y()<=221*self.scalar and self.safe_on:
 				self.safe_enter("3")
-			elif 509<=event.x()<=563 and 166<=event.y()<=221 and self.safe_on:
+			elif 509*self.scalar<=event.x()<=563*self.scalar and 166*self.scalar<=event.y()<=221*self.scalar and self.safe_on:
 				self.safe_enter("bc")
-			elif 292<=event.x()<=347 and 233<=event.y()<=287 and self.safe_on:
+			elif 292*self.scalar<=event.x()<=347*self.scalar and 233*self.scalar<=event.y()<=287*self.scalar and self.safe_on:
 				self.safe_enter("4")
-			elif 366<=event.x()<=420 and 233<=event.y()<=287 and self.safe_on:
+			elif 366*self.scalar<=event.x()<=420*self.scalar and 233*self.scalar<=event.y()<=287*self.scalar and self.safe_on:
 				self.safe_enter("5")
-			elif 438<=event.x()<=492 and 233<=event.y()<=287 and self.safe_on:
+			elif 438*self.scalar<=event.x()<=492*self.scalar and 233*self.scalar<=event.y()<=287*self.scalar and self.safe_on:
 				self.safe_enter("6")
-			elif 509<=event.x()<=563 and 233<=event.y()<=287 and self.safe_on:
+			elif 509*self.scalar<=event.x()<=563*self.scalar and 233*self.scalar<=event.y()<=287*self.scalar and self.safe_on:
 				self.safe_enter("en")
-			elif 292<=event.x()<=347 and 300<=event.y()<=354 and self.safe_on:
+			elif 292*self.scalar<=event.x()<=347*self.scalar and 300*self.scalar<=event.y()<=354*self.scalar and self.safe_on:
 				self.safe_enter("7")
-			elif 366<=event.x()<=420 and 300<=event.y()<=354 and self.safe_on:
+			elif 366*self.scalar<=event.x()<=420*self.scalar and 300*self.scalar<=event.y()<=354*self.scalar and self.safe_on:
 				self.safe_enter("8")
-			elif 438<=event.x()<=492 and 300<=event.y()<=354 and self.safe_on:
+			elif 438*self.scalar<=event.x()<=492*self.scalar and 300*self.scalar<=event.y()<=354*self.scalar and self.safe_on:
 				self.safe_enter("9")
-			elif 509<=event.x()<=563 and 300<=event.y()<=354 and self.safe_on:
+			elif 509*self.scalar<=event.x()<=563*self.scalar and 300*self.scalar<=event.y()<=354*self.scalar and self.safe_on:
 				self.safe_enter("0")
-			elif 221<=event.x()<=403 and 81<=event.y()<=192 and self.safe_open:
+			elif 221*self.scalar<=event.x()<=403*self.scalar and 81*self.scalar<=event.y()<=192*self.scalar and self.safe_open:
 				self.label.setPixmap(self.victory)
 				self.victory_msg.show()
 				self.victory_code.show()
@@ -335,15 +335,20 @@ class Tablet(QWidget):
 
 
 class Light(QWidget):
-	def __init__(self, pos_x, pos_y, rolled_sheet, sett):
+	def __init__(self, pos_x, pos_y, rolled_sheet, sett, scalar):
 		super().__init__()
-		self.initUI(pos_x, pos_y, rolled_sheet, sett)
+		self.initUI(pos_x, pos_y, rolled_sheet, sett, scalar)
 
-	def initUI(self, pos_x, pos_y, rolled_sheet, sett):
+	def initUI(self, pos_x, pos_y, rolled_sheet, sett, scalar):
 		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
 		self.setAttribute(Qt.WA_TranslucentBackground)
+		self.scalar=scalar
 
 		self.light=QPixmap("imgs/light.png")
+
+		if self.scalar!=1:
+			self.light=self.light.scaled(self.light.width()*self.scalar, self.light.height()*self.scalar)
+
 		self.label=QLabel(self)
 		self.label.setPixmap(self.light)
 		self.label.setGeometry(0, 0, self.light.width(), self.light.height())
@@ -407,16 +412,22 @@ class Light(QWidget):
 							   sheet_global_pos.y()+20+int(self.rolled_sheet.sheet.height()*(2/3)))
 
 class RolledSheet(QWidget):
-	def __init__(self, pos_x, pos_y, t_width, t_height):
+	def __init__(self, pos_x, pos_y, t_width, t_height, scalar):
 		super().__init__()
-		self.initUI(pos_x, pos_y, t_width, t_height)
+		self.initUI(pos_x, pos_y, t_width, t_height, scalar)
 
-	def initUI(self, pos_x, pos_y, t_width, t_height):
+	def initUI(self, pos_x, pos_y, t_width, t_height, scalar):
 		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
 		self.setAttribute(Qt.WA_TranslucentBackground)
+		self.scalar=scalar
 
 		self.rolled=QPixmap("imgs/rolledsheet.png")
 		self.sheet=QPixmap("imgs/sheet.png")
+
+		if self.scalar!=1:
+			self.rolled=self.rolled.scaled(self.rolled.width()*self.scalar, self.rolled.height()*self.scalar)
+			self.sheet=self.sheet.scaled(self.sheet.width()*self.scalar, self.sheet.height()*self.scalar)
+
 
 		self.label=QLabel(self)
 		self.label.setPixmap(self.rolled)
