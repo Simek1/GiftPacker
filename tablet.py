@@ -172,6 +172,12 @@ class Tablet(QWidget):
 				else:
 					self.label.setPixmap(self.tableton)
 					self.tablet_on=True
+					self.safe_input.hide()
+					self.victory_msg.hide()
+					self.victory_code.hide()
+					self.copy_button.hide()
+					self.safe_on=False
+					self.safe_open=False
 			elif 51*self.scalar<=event.x()<=130*self.scalar and 48*self.scalar<=event.y()<=128*self.scalar and self.tablet_on: #kamera
 				self.label.setPixmap(self.tabletcam)
 				self.cam_on=True
