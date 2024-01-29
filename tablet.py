@@ -37,30 +37,38 @@ class Tablet(QWidget):
 		self.scalar=1
 
 		if self.screen_width<1920:
-			self.scalar=int(self.screen_width/1920)
-			for i in range(len(imgs)):
-				imgs[i]=imgs[i].scaled(imgs[i].width()*self.scalar, imgs[i].height()*self.scalar)
-				i+=1
+			self.scalar=self.screen_width/1920
+			self.tableton=self.tableton.scaled(int(self.tableton.width()*self.scalar), int(self.tableton.height()*self.scalar))
+			self.tabletoff=self.tabletoff.scaled(int(self.tabletoff.width()*self.scalar), int(self.tabletoff.height()*self.scalar))
+			self.tabletcam=self.tabletcam.scaled(int(self.tabletcam.width()*self.scalar), int(self.tabletcam.height()*self.scalar))
+			self.tabletquiz=self.tabletquiz.scaled(int(self.tabletquiz.width()*self.scalar), int(self.tabletquiz.height()*self.scalar))
+			self.tabletback=self.tabletback.scaled(int(self.tabletback.width()*self.scalar), int(self.tabletback.height()*self.scalar))
+			self.sheet=self.sheet.scaled(int(self.sheet.width()*self.scalar), int(self.sheet.height()*self.scalar))
+			self.quizmode=self.quizmode.scaled(int(self.quizmode.width()*self.scalar), int(self.quizmode.height()*self.scalar))
+			self.safe=self.safe.scaled(int(self.safe.width()*self.scalar), int(self.safe.height()*self.scalar))
+			self.opensafe=self.opensafe.scaled(int(self.opensafe.width()*self.scalar), int(self.opensafe.height()*self.scalar))
+			self.victory=self.victory.scaled(int(self.victory.width()*self.scalar), int(self.victory.height()*self.scalar))
+
 
 		self.label=QLabel(self)
 		self.label.setPixmap(self.tabletoff)
 		self.label.setGeometry(0, 0, self.tabletoff.width(), self.tabletoff.height())
-		self.setGeometry((int(self.screen_width/2)-int(self.tabletoff.width()/2))*self.scalar, (int(screen_height/2)-int(self.tabletoff.height()/2))*self.scalar, self.tabletoff.width(), self.tabletoff.height())
+		self.setGeometry(int(self.screen_width/2)-int(self.tabletoff.width()/2), int(screen_height/2)-int(self.tabletoff.height()/2), self.tabletoff.width(), self.tabletoff.height())
 
 		self.invisible_sheet=QLabel(self)
 		self.invisible_sheet.setPixmap(self.sheet)
-		self.invisible_sheet.setGeometry((-self.pos().x()+20)*self.scalar, (-self.pos().y()+20)*self.scalar, self.sheet.width(), self.sheet.height())
+		self.invisible_sheet.setGeometry(-self.pos().x()+int(20*self.scalar), -self.pos().y()+int(20*self.scalar), self.sheet.width(), self.sheet.height())
 
 		i_s_txt=sett.mys1_msg
 		self.invisible_sheet_txt=QLabel(i_s_txt, self)
-		self.invisible_sheet_txt.setGeometry((-self.pos().x()+20)*self.scalar, (-self.pos().y()+20)*self.scalar, self.sheet.width(), int(self.sheet.height()/2))
+		self.invisible_sheet_txt.setGeometry(-self.pos().x()+int(20*self.scalar), -self.pos().y()+int(20*self.scalar), self.sheet.width(), int(self.sheet.height()/2))
 		self.invisible_sheet_txt.setWordWrap(True)
 		self.invisible_sheet_txt.lower()
 
 		i_s_code=sett.mys1_code
 
 		self.invisible_sheet_code=QLabel(i_s_code, self)
-		self.invisible_sheet_code.setGeometry((-self.pos().x()+20)*self.scalar+int(self.sheet.width()/2), (-self.pos().y()+20)*self.scalar+int(self.sheet.height()*(2/3)),
+		self.invisible_sheet_code.setGeometry(-self.pos().x()+int(20*self.scalar)+int(self.sheet.width()/2), -self.pos().y()+int(20*self.scalar)+int(self.sheet.height()*(2/3)),
 											 int(self.sheet.width()/2), int(self.sheet.height()*(1/3)))
 		self.invisible_sheet_code.setWordWrap(True)
 		self.invisible_sheet_code.lower()
@@ -80,28 +88,28 @@ class Tablet(QWidget):
 
 		self.rolled_sheet=RolledSheet(self.pos().x(), self.pos().y(), self.width(), self.height(), self.scalar)
 
-		self.light=Light((50+self.pos().x())*self.scalar, (self.pos().y()+55)*self.scalar, self.rolled_sheet, sett, self.scalar)
+		self.light=Light(int(50*self.scalar)+self.pos().x(), self.pos().y()+int(55*self.scalar), self.rolled_sheet, sett, self.scalar)
 
 		self.questions=sett.questions
 		self.answers=sett.answers
 
 		self.question=QLabel("", self)
-		self.question.setGeometry(360*self.scalar, 140*self.scalar, 400*self.scalar, 50*self.scalar)
+		self.question.setGeometry(int(360*self.scalar), int(140*self.scalar), int(400*self.scalar), int(50*self.scalar))
 		self.question.setWordWrap(True)
 		self.question.setAlignment(Qt.AlignCenter)
 
 		self.ans1=QLabel("", self)
-		self.ans1.setGeometry(360*self.scalar, 220*self.scalar, 400*self.scalar, 50*self.scalar)
+		self.ans1.setGeometry(int(360*self.scalar), int(220*self.scalar), int(400*self.scalar), int(50*self.scalar))
 		self.ans1.setWordWrap(True)
 		self.ans1.setAlignment(Qt.AlignLeft)
 
 		self.ans2=QLabel("", self)
-		self.ans2.setGeometry(360*self.scalar, 290*self.scalar, 400*self.scalar, 50*self.scalar)
+		self.ans2.setGeometry(int(360*self.scalar), int(290*self.scalar), int(400*self.scalar), int(50*self.scalar))
 		self.ans2.setWordWrap(True)
 		self.ans2.setAlignment(Qt.AlignLeft)
 
 		self.ans3=QLabel("", self)
-		self.ans3.setGeometry(360*self.scalar, 360*self.scalar, 400*self.scalar, 50*self.scalar)
+		self.ans3.setGeometry(int(360*self.scalar), int(360*self.scalar), int(400*self.scalar), int(50*self.scalar))
 		self.ans3.setWordWrap(True)
 		self.ans3.setAlignment(Qt.AlignLeft)
 
@@ -114,10 +122,10 @@ class Tablet(QWidget):
 		self.safe_password=sett.safe_code
 		self.safe_input=QLabel("",self)
 		self.safe_input.setAlignment(Qt.AlignCenter)
-		self.safe_input.setGeometry(291*self.scalar, 104*self.scalar, 200*self.scalar, 33*self.scalar)
+		self.safe_input.setGeometry(int(291*self.scalar), int(104*self.scalar), int(200*self.scalar), int(33*self.scalar))
 		
 		self.safe_font = QFont()
-		self.safe_font.setPointSize(30*self.scalar) 
+		self.safe_font.setPointSize(int(30*self.scalar)) 
 		self.safe_input.setFont(self.safe_font)
 
 		self.safe_msg=sett.rew_msg
@@ -125,20 +133,20 @@ class Tablet(QWidget):
 
 		self.victory_msg=QLabel(self.safe_msg, self)
 		self.victory_msg.setWordWrap(True)
-		self.victory_msg.setGeometry(50*self.scalar, 50*self.scalar, 685*self.scalar, 220*self.scalar)
+		self.victory_msg.setGeometry(int(50*self.scalar), int(50*self.scalar), int(685*self.scalar), int(220*self.scalar))
 		self.victory_msg.setAlignment(Qt.AlignCenter)
 		self.victory_msg.setFont(self.safe_font)
 		self.victory_msg.hide()
 
 		self.victory_code=QLabel(self.safe_code, self)
 		self.victory_code.setWordWrap(True)
-		self.victory_code.setGeometry(50*self.scalar, 290*self.scalar, 685*self.scalar, 87*self.scalar)
+		self.victory_code.setGeometry(int(50*self.scalar), int(290*self.scalar), int(685*self.scalar), int(87*self.scalar))
 		self.victory_code.setAlignment(Qt.AlignCenter)
 		self.victory_code.setFont(self.safe_font)
 		self.victory_code.hide()
 
 		self.copy_button = QPushButton('Copy code', self)
-		self.copy_button.move(650*self.scalar,345*self.scalar)
+		self.copy_button.move(int(650*self.scalar),int(345*self.scalar))
 		self.copy_button.clicked.connect(self.copy)
 		self.copy_button.hide()
 
@@ -347,7 +355,7 @@ class Light(QWidget):
 		self.light=QPixmap("imgs/light.png")
 
 		if self.scalar!=1:
-			self.light=self.light.scaled(self.light.width()*self.scalar, self.light.height()*self.scalar)
+			self.light=self.light.scaled(int(self.light.width()*self.scalar), int(self.light.height()*self.scalar))
 
 		self.label=QLabel(self)
 		self.label.setPixmap(self.light)
@@ -359,17 +367,17 @@ class Light(QWidget):
 		i_s_txt=sett.mys2_msg
 		self.sheet_txt=QLabel(i_s_txt, self)
 		sheet_global_pos=self.mapFromGlobal(self.rolled_sheet.pos())
-		self.sheet_txt.setGeometry(sheet_global_pos.x()+20, sheet_global_pos.y()+20,
-							  self.rolled_sheet.sheet.width()-40, int(self.rolled_sheet.sheet.height()/2)-20)
+		self.sheet_txt.setGeometry(sheet_global_pos.x()+int(20*self.scalar), sheet_global_pos.y()+int(20*self.scalar),
+							  self.rolled_sheet.sheet.width()-int(40*self.scalar), int(self.rolled_sheet.sheet.height()/2)-int(20*self.scalar))
 		self.sheet_txt.setWordWrap(True)
 		self.sheet_txt.lower()
 
 		i_s_code=sett.mys2_code
 
 		self.sheet_code=QLabel(i_s_code, self)
-		self.sheet_code.setGeometry(sheet_global_pos.x()+20+int(self.rolled_sheet.sheet.width()/2),
-							   sheet_global_pos.y()+20+int(self.rolled_sheet.sheet.height()*(2/3)),
-											 int(self.rolled_sheet.sheet.width()/2)-40, int(self.rolled_sheet.sheet.height()*(1/3)))
+		self.sheet_code.setGeometry(sheet_global_pos.x()+int(20*self.scalar)+int(self.rolled_sheet.sheet.width()/2),
+							   sheet_global_pos.y()+int(20*self.scalar)+int(self.rolled_sheet.sheet.height()*(2/3)),
+											 int(self.rolled_sheet.sheet.width()/2)-int(40*self.scalar), int(self.rolled_sheet.sheet.height()*(1/3)))
 		self.sheet_code.setWordWrap(True)
 		self.sheet_code.lower()
 
@@ -391,13 +399,13 @@ class Light(QWidget):
 	def tablet_flip(self):
 		if self.tablet_flipped:
 			self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool)
-			self.move(self.pos().x()-685, self.pos().y())
+			self.move(self.pos().x()-int(685*self.scalar), self.pos().y())
 			self.show()
 			self.tablet_flipped=False
 		else:
 			self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool | Qt.WindowStaysOnTopHint)
 			self.show()
-			self.move(self.pos().x()+685, self.pos().y())
+			self.move(self.pos().x()+int(685*self.scalar), self.pos().y())
 			self.tablet_flipped=True
 	def is_rolled(self):
 		if self.rolled_sheet.sheet_rolled==False:
@@ -407,9 +415,9 @@ class Light(QWidget):
 			self.txt_pos.start(20)
 	def get_txt_pos(self):
 		sheet_global_pos=self.mapFromGlobal(self.rolled_sheet.pos())
-		self.sheet_txt.move(sheet_global_pos.x()+20, sheet_global_pos.y()+20)
-		self.sheet_code.move(sheet_global_pos.x()+20+int(self.rolled_sheet.sheet.width()/2),
-							   sheet_global_pos.y()+20+int(self.rolled_sheet.sheet.height()*(2/3)))
+		self.sheet_txt.move(sheet_global_pos.x()+int(20*self.scalar), sheet_global_pos.y()+int(20*self.scalar))
+		self.sheet_code.move(sheet_global_pos.x()+int(20*self.scalar)+int(self.rolled_sheet.sheet.width()/2),
+							   sheet_global_pos.y()+int(20*self.scalar)+int(self.rolled_sheet.sheet.height()*(2/3)))
 
 class RolledSheet(QWidget):
 	def __init__(self, pos_x, pos_y, t_width, t_height, scalar):
@@ -425,14 +433,14 @@ class RolledSheet(QWidget):
 		self.sheet=QPixmap("imgs/sheet.png")
 
 		if self.scalar!=1:
-			self.rolled=self.rolled.scaled(self.rolled.width()*self.scalar, self.rolled.height()*self.scalar)
-			self.sheet=self.sheet.scaled(self.sheet.width()*self.scalar, self.sheet.height()*self.scalar)
+			self.rolled=self.rolled.scaled(int(self.rolled.width()*self.scalar), int(self.rolled.height()*self.scalar))
+			self.sheet=self.sheet.scaled(int(self.sheet.width()*self.scalar), int(self.sheet.height()*self.scalar))
 
 
 		self.label=QLabel(self)
 		self.label.setPixmap(self.rolled)
 		self.label.setGeometry(0, 0, self.rolled.width(), self.rolled.height())
-		self.setGeometry(pos_x+t_width-self.rolled.width(), pos_y+t_height-self.rolled.height()-25, self.rolled.width(), self.rolled.height())
+		self.setGeometry(pos_x+t_width-self.rolled.width(), pos_y+t_height-self.rolled.height()-int(25*self.scalar), self.rolled.width(), self.rolled.height())
 
 		self.sheet_rolled=True
 
