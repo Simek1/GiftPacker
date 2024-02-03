@@ -1,13 +1,13 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QTabWidget, QTextEdit, QLineEdit, QRadioButton
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QTabWidget, QTextEdit, QLineEdit, QRadioButton, QMessageBox
 from PyQt5.QtCore import QRect
 from PyQt5.QtGui import QIntValidator
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from base64 import urlsafe_b64encode, urlsafe_b64decode
+from base64 import urlsafe_b64encode
 
 
 
@@ -121,7 +121,6 @@ class SettingsWindow(QWidget):
                 self.tabs.removeTab(self.tabs.count()-1)
                 j+=1
             del(self.question_tabs[int(self.questions_num.text()):])
-            print(self.question_tabs)
 
     def create_question_tab(self, num):
         self.question_tabs.append(QuestionTab())
@@ -131,30 +130,30 @@ class SettingsWindow(QWidget):
         if len(self.rew_msg.toPlainText())>0:
             settings+=self.rew_msg.toPlainText()+"\n"
         else:
-            print("Fill the reward message")
+            self.show_message("Fill the reward message")
             return 0
         settings+=self.game_code.text()+"\n"
         settings+=self.mys1_msg.toPlainText()+"\n"
         if len(self.mys1_code.text())==2:
             settings+=self.mys1_code.text()+"\n"
         else:
-            print("Fill the invisible sheet safe code")
+            self.show_message("Fill the invisible sheet safe code")
             return 0
         settings+=self.mys2_msg.toPlainText()+"\n"
         if len(self.mys2_code.text())==2:
             settings+=self.mys2_code.text()+"\n"
         else:
-            print("Fill the hidden sheet safe code")
+            self.show_message("Fill the hidden sheet safe code")
             return 0
         if len(self.safe_code.text())<6:
-            print("Safe code is incorrect")
+            self.show_message("Safe code is incorrect")
             return 0
         else:
             settings+=self.safe_code.text()+"\n"
         if len(self.quiz_code.text())==2:
             settings+=self.quiz_code.text()+"\n"
         else:
-            print("Fill the quiz code")
+            self.show_message("Fill the quiz code")
             return 0
         settings+=self.quiz_msg.toPlainText()+"\n"
         if len(self.questions_num.text())>0 and self.questions_num.text()!="0":
@@ -173,20 +172,18 @@ class SettingsWindow(QWidget):
                         elif que.radioButton3.isChecked():
                             settings+="3\n"
                         else:
-                            print("Check answer in all questions")
+                            self.show_message("Check answer in all questions")
                             return 0
                     else:
-                        print("Fill all questions details")
+                        self.show_message("Fill all questions details")
                         return 0
             else:
-                print("Confirm number of questions")
+                self.show_message("Confirm number of questions")
                 return 0
         #settings crypting
         salt=os.urandom(16)
         if not os.path.exists("conf"):
             os.makedirs("conf")
-        with open("conf/salt.bin", "wb") as salt_file:
-            salt_file.write(salt)
         kdf=PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             iterations=100000,
@@ -202,6 +199,17 @@ class SettingsWindow(QWidget):
         settings=urlsafe_b64encode(ciphertext)
         with open("conf/settings.bin", "wb") as settings_file:
             settings_file.write(settings)
+        self.show_message("Configuration has been completed", True)
+    def show_message(self, txt, turn_off=False):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setText(txt)
+        msg.setWindowTitle("Information")
+        result=msg.exec_()
+        if result == QMessageBox.Ok and turn_off==False:
+            msg.close()
+        if result == QMessageBox.Ok and turn_off==True:
+            self.close()
 
 class QuestionTab(QWidget):
     def __init__(self):
