@@ -41,9 +41,11 @@ Upon the first launch of the application, you will be prompted to perform the in
 
   ## Quiz
 
-  You have to answer all the questions that you or your friend who sent you this program have set before. If you answer incorrectly, the answer will be deleted. Answer all questions to receive the message.
+  You have to answer all the questions that you or your friend who sent you this program have set before. If you answer incorrectly, the answer will be deleted. Answer all the questions to receive the message.
 
   ## Safe
+
+  Previous puzzles should provide you with fragments of the safe code. Enter them in the correct order (as should be suggested by the puzzle's reward messages) to claim your reward.
 
 </details>
 
