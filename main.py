@@ -13,7 +13,7 @@ def openSecondWindow():
 	window2.rolled_sheet.show()
 
 if __name__ == '__main__':
-	if os.path.exists("conf"):
+	if os.path.exists("conf/settings.bin"):
 		try:
 			app=QApplication(sys.argv)
 			window=Box()
@@ -22,6 +22,7 @@ if __name__ == '__main__':
 			window.destroyed.connect(openSecondWindow)
 		except Exception as err:
 			window.destroy()
+			del(window)
 			setup_window=SettingsWindow()
 			setup_window.show()
 			print(err)
