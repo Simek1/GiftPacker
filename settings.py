@@ -18,6 +18,7 @@ class SettingsWindow(QWidget):
 
     def initUI(self):
         self.resize(510, 366)
+        self.setFixedSize(510, 366)
 
         self.tabs = QTabWidget(self)
         self.tabs.setGeometry(QRect(0, 0, 511, 341))
