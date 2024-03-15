@@ -160,7 +160,7 @@ class Tablet(QWidget):
 		
 	def mousePressEvent(self, event):
 		if event.button()==Qt.LeftButton:
-			if 44*self.scalar<=event.x()<=74*self.scalar and 382*self.scalar<=event.y()<=412*self.scalar:
+			if 44*self.scalar<=event.x()<=74*self.scalar and 382*self.scalar<=event.y()<=412*self.scalar: #turn on/off
 				if self.tablet_on:
 					self.label.setPixmap(self.tabletoff)
 					self.tablet_on=False
@@ -178,6 +178,10 @@ class Tablet(QWidget):
 					self.copy_button.hide()
 					self.safe_on=False
 					self.safe_open=False
+					self.question.hide()
+					self.ans1.hide()
+					self.ans2.hide()
+					self.ans3.hide()
 			elif 51*self.scalar<=event.x()<=130*self.scalar and 48*self.scalar<=event.y()<=128*self.scalar and self.tablet_on: #kamera
 				self.label.setPixmap(self.tabletcam)
 				self.cam_on=True
