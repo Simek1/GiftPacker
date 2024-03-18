@@ -9,7 +9,13 @@ GiftPacker is an application designed for the thoughtful gifter, transforms the 
 
 </div>
 
+To Launch the application, the exe file has to be in the same folder as imgs folder.
+
 Upon the first launch of the application, you will be prompted to perform the initial setup. The configuration involves adding content for messages that will appear after each puzzle, questions and answers for the quiz, and a final message hidden in the safe. Each of these messages conveys one of the three parts of the safe code. The content of the messages is intended to be a riddle, suggesting the sequence for entering each part of the code into the safe. Navigation between individual puzzles (detailed puzzle information can be found [here](#puzzles)) is facilitated through tabs located at the top of the screen. The first tab pertains to the reward within the safe, where you should provide a message (intended to be a message with good wishes) and an optional game key. The game key can then be copied by the gift recipient to activate the game on a chosen platform. Tabs ["Invisible Sheet"](#invisible-sheet) and ["Hidden Sheet"](#hidden-sheet) refer to two puzzles, in both of which you need to fill in a segment of the code obtained by solving them and a message that is intended to suggest which part of the code you received (this is an optional field). In the "Quiz" tab, in addition to the fields that also appeared in the two previous puzzles, you must also specify and confirm the number of questions to appear in the quiz. New tabs will appear at the top of the window, one for each question, where you need to enter the question and three answers. For the correct answer, you should check the checkbox. The last tab is the "Safe Code," where you need to input the code for the safe (intended to be created from the previously provided 3 parts of the code from the previous puzzles), which can be used to open it and receive the reward mentioned in the first tab.
+
+Upon completing the configuration, you should send the program along with the config folder to your friend. I am aware of the issue with sending the program via email or popular messengers, as they detect it as a virus due to the lack of a certificate and the method of creating the exe file (pyinstaller). Therefore, the best way to deliver the program to your friend will be to provide them with a link to download the exe file from this repository and send them the config folder (this should not be a problem via email or any messenger).
+
+In case of errors or issues with the program, please contact me. I will try to fix them as soon as possible.
 
 # Puzzles
 <details>
