@@ -1,3 +1,23 @@
+# Table of Contents
+
+1. [Introduction](#introduction)
+
+2. [Instruction](#instruction)
+
+3. [Puzzles](#puzzles)
+
+    3.1 [First puzzle (spoiler)](#open-the-box)
+
+    3.2 [Second puzzle (spoiler)](#invisible-sheet)
+
+    3.3 [Third puzzle (spoiler)](#hidden-sheet)
+    
+    3.4 [Fourth puzzle (spoiler)](#quiz)
+
+    3.5 [Fifth puzzle (spoiler)](#safe)
+
+4. [Code requirements](#code-requirements)
+
 # Introduction
 GiftPacker is an application designed for the thoughtful gifter, transforms the act of giving into an exciting and personalized experience. Tailored for those who seek to add an extra layer of joy to their presents, GiftPacker allows users to customize puzzle-based challenges, turning the unwrapping process into a fun and memorable adventure.
 
