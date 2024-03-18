@@ -51,3 +51,10 @@ Upon the first launch of the application, you will be prompted to perform the in
 
 # Code requirements
 
+In releases tab, there is an exe file that can be launched even without python on your computer but it needs to be in same folder as folder "imgs". Code has been written in Python 3.11. It uses the following libraries:
+
+- PyQt5, graphic rendering.
+
+- os, writing and reading settings file.
+
+- cryptography, settings file encryption so player can't get safe code or any game data without playing game.
