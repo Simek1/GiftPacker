@@ -21,6 +21,8 @@
 # Introduction
 GiftPacker is an application designed for the thoughtful gifter, transforms the act of giving into an exciting and personalized experience. Tailored for those who seek to add an extra layer of joy to their presents, GiftPacker allows users to customize puzzle-based challenges, turning the unwrapping process into a fun and memorable adventure.
 
+**In the background of the program, there should be no other program windows, as they may hide puzzle elements.**
+
 # Instruction 
 
 <div style="text-align:center">
@@ -84,3 +86,5 @@ In releases tab, there is an exe file that can be launched even without python o
 - os, writing and reading settings file.
 
 - cryptography, settings file encryption so player can't get safe code or any game data without playing game.
+
+The exe file has been created via PyInstaller.
